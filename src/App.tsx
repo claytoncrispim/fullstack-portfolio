@@ -1,6 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import { Sun, Moon, Briefcase, Mail, Linkedin, Github, ArrowRight, Code, Server, Database, Menu, X } from 'lucide-react';
 
+// We are defining data separately for projects
+    const projects = [
+        {
+            title: "Bill Calculator Pro",
+            description: "An intuitive and responsive single-page application designed to help users easily manage, track, and calculate their monthly bills in a visually organized way.",
+            tags: ["HTML5", "CSS3", "Bootstrap", "JavaScript", "ES6+", "localStorage"],
+            image: "/projects-bill-calculator-pro-screenshot.png",
+            liveUrl: "https://claytoncrispim.github.io/bill-calculator-pro/",
+            codeUrl: "https://github.com/claytoncrispim/bill-calculator-pro.git",
+        },
+        {
+            title: "Project Two",
+            description: "A short description of your project. What problem does it solve and what was your role?",
+            tags: ["TypeScript", "Next.js", "MongoDB"],
+            image: "https://placehold.co/600x400/A5B4FC/1F2937?text=Project+Two",
+            liveUrl: "#",
+            codeUrl: "#",
+        },
+        {
+            title: "Project Three",
+            description: "A short description of your project. What problem does it solve and what was your role?",
+            tags: ["Python", "Flask", "PostgreSQL"],
+            image: "https://placehold.co/600x400/FBCFE8/1F2937?text=Project+Three",
+            liveUrl: "#",
+            codeUrl: "#",
+        },
+    ];
+
+// ProjectCard Component
+// It takes a project object as prop and displays it
+const ProjectCard = ({ project }) => (
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+        <img src={project.image} alt={project.title} className="w-full h-48 object-cover object-top" />
+        <div className="p-6">
+            <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+            <div className="flex flex-wrap gap-2 mb-4">
+                {project.tags.map(tag => (
+                    <span key={tag} className="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">{tag}</span>
+                ))}
+            </div>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
+            <div className="flex space-x-4">
+                <a href={project.liveUrl} className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">Live Demo</a>
+                <a href={project.codeUrl} className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">View Code</a>
+            </div>
+        </div>
+    </div>
+);
+
 // Main App Component
 export default function App() {
     const [darkMode, setDarkMode] = useState(false);
@@ -68,11 +117,13 @@ const Header = ({ darkMode, toggleDarkMode, navLinks, mobileMenuOpen, toggleMobi
                     <a href="#" className="hidden md:inline-flex items-center bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors shadow">
                         Resume <Briefcase className="ml-2 h-4 w-4" />
                     </a>
+                    {/* Mobile Menu Button */}
                     <button onClick={toggleMobileMenu} className="md:hidden p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
                         {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                     </button>
                 </div>
             </div>
+            {/* Mobile Menu */}
             {mobileMenuOpen && (
                 <div className="md:hidden bg-white dark:bg-gray-800 py-4 px-6">
                     <nav className="flex flex-col space-y-4">
@@ -94,7 +145,7 @@ const Header = ({ darkMode, toggleDarkMode, navLinks, mobileMenuOpen, toggleMobi
 const HeroSection = () => (
     <section id="home" className="py-24 md:py-32 flex flex-col items-center text-center">
         {/* <img src="https://imgur.com/a/b0aW2Lg" alt="Clayton Crispim" className="rounded-full w-32 h-32 mb-6 border-4 border-white dark:border-gray-800 shadow-lg"/> */}
-        <img src="./public/20190827_140626_cropped.jpg" alt="Clayton Crispim" className="rounded-full w-32 h-32 mb-6 border-4 border-white dark:border-gray-800 shadow-lg"/>
+        <img src="/20190827_140626_cropped.jpg" alt="Clayton Crispim" className="rounded-full w-32 h-32 mb-6 border-4 border-white dark:border-gray-800 shadow-lg"/>
         <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight mb-4">
             Hi, I'm Clayton Crispim. <br />
             <span className="text-indigo-600 dark:text-indigo-400">A Full-Stack Developer.</span>
@@ -140,77 +191,56 @@ const AboutSection = () => (
 
 
 // Projects Section Component
+// 1. We use the projects array defined at the top.
+// 2. We use the ProjectCard component to render each project.
 const ProjectsSection = () => {
-    const projects = [
-        {
-            title: "Project One",
-            description: "A short description of your project. What problem does it solve and what was your role?",
-            tags: ["React", "Node.js", "TailwindCSS"],
-            image: "https://placehold.co/600x400/D1D5DB/1F2937?text=Project+One",
-            liveUrl: "#",
-            codeUrl: "#",
-        },
-        {
-            title: "Project Two",
-            description: "A short description of your project. What problem does it solve and what was your role?",
-            tags: ["TypeScript", "Next.js", "MongoDB"],
-            image: "https://placehold.co/600x400/A5B4FC/1F2937?text=Project+Two",
-            liveUrl: "#",
-            codeUrl: "#",
-        },
-        {
-            title: "Project Three",
-            description: "A short description of your project. What problem does it solve and what was your role?",
-            tags: ["Python", "Flask", "PostgreSQL"],
-            image: "https://placehold.co/600x400/FBCFE8/1F2937?text=Project+Three",
-            liveUrl: "#",
-            codeUrl: "#",
-        },
-    ];
-
     return (
         <section id="projects" className="py-20 md:py-28">
-            <h2 className="text-3xl font-bold text-center mb-12">My Work</h2>
+             <h2 className="text-3xl font-bold text-center mb-12">My Work</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {projects.map((project, index) => (
-                    <div key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-                        <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
-                        <div className="p-6">
-                            <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                            <div className="flex flex-wrap gap-2 mb-4">
-                                {project.tags.map(tag => (
-                                    <span key={tag} className="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">{tag}</span>
-                                ))}
-                            </div>
-                            <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
-                            <div className="flex space-x-4">
-                                <a href={project.liveUrl} className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">Live Demo</a>
-                                <a href={project.codeUrl} className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">View Code</a>
-                            </div>
-                        </div>
-                    </div>
+                    <ProjectCard key={index} project={project} />
                 ))}
             </div>
         </section>
-    );
+    )
 };
 
 // Skills Section Component
 const SkillsSection = () => {
-    const skills = {
-        frontend: ["JavaScript (ES6+)", "TypeScript", "React", "Next.js", "HTML5", "CSS3", "Tailwind CSS"],
-        backend: ["Node.js", "Express", "Python", "Flask", "REST APIs", "GraphQL"],
-        databases: ["MongoDB", "PostgreSQL", "Firebase", "MySQL"],
-    };
+    // Skills data
+    const skillsData =  [
+        {
+            title: "Frontend",
+            icon: <Code className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>,
+            skills: ["JavaScript (ES6+)", "TypeScript", "React", "Next.js", "HTML5", "CSS3", "Tailwind CSS"],
+        },
+        {
+            title: "Backend",
+            icon: <Server className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>,
+            // skills: ["Node.js", "Express", "Python", "Flask", "REST APIs", "GraphQL"],
+            skills: ["Node.js", "Express", "Python", "REST APIs"],
+        },
+        // {
+        //     title: "Databases",
+        //     icon: <Database className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>,
+        //     skills: ["MongoDB", "PostgreSQL", "Firebase", "MySQL"],
+        // },
+    ];
 
     return (
         <section id="skills" className="py-20 md:py-28 bg-white dark:bg-gray-800 rounded-xl shadow-lg my-12">
             <div className="container mx-auto px-6 md:px-12">
                 <h2 className="text-3xl font-bold text-center mb-12">Technologies I Use</h2>
                 <div className="grid md:grid-cols-3 gap-8 text-center">
-                    <SkillCategory icon={<Code className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>} title="Frontend" skills={skills.frontend} />
-                    <SkillCategory icon={<Server className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>} title="Backend" skills={skills.backend} />
-                    <SkillCategory icon={<Database className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>} title="Databases" skills={skills.databases} />
+                    {skillsData.map((category) => (
+                        <SkillCategory 
+                            key={category.title} 
+                            icon={category.icon} 
+                            title={category.title} 
+                            skills={category.skills} 
+                        />
+                    ))}
                 </div>
             </div>
         </section>
