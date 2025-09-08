@@ -259,20 +259,112 @@ const SkillCategory = ({ icon, title, skills }) => (
 
 
 // Contact Section Component
-const ContactSection = () => (
-    <section id="contact" className="py-20 md:py-28">
-        <div className="text-center">
-            <h2 className="text-3xl font-bold">Get In Touch</h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mt-4 max-w-xl mx-auto">
-                I'm currently open to new opportunities. If you have a project in mind or just want to say hi, feel free to reach out!
-            </p>
-            <a href="mailto:your.email@example.com" className="mt-8 inline-block bg-indigo-600 text-white text-lg font-semibold px-8 py-4 rounded-lg hover:bg-indigo-700 transition-colors shadow-lg">
-                Say Hello <Mail className="inline ml-2"/>
-            </a>
-        </div>
-    </section>
-);
+const ContactSection = () => {
+    // State to hold the form data
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        message: '',
+    });
+    // State to hold the submission status
+    const [status, setStatus] = useState('idle'); // idle | sending | success | error
+    const [responseMessage, setResponseMessage] = useState('');
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setStatus('sending');
+        setResponseMessage('');
+
+        try {
+            const response = await fetch('https://legendary-tribble-g749rw9qgv9hw45q-3001.app.github.dev/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setStatus('success');
+                setResponseMessage(data.message);
+                setFormData({ name: '', email: '', message: '' }); // Clear form
+            } else {
+                setStatus('error');
+                setResponseMessage(data.message || 'An error occurred.');
+            }
+        } catch (error) {
+            setStatus('error');
+            setResponseMessage('Something went wrong. Please try again.');
+        }
+    };
+
+    return (
+        <section id="contact" className="py-20 md:py-28">
+            <div className="text-center">
+                <h2 className="text-3xl font-bold">Get In Touch</h2>
+                <p className="text-lg text-gray-600 dark:text-gray-400 mt-4 max-w-xl mx-auto">
+                    Have a question or want to work together? Leave your details and I'll get back to you.
+                </p>
+            </div>
+            <div className="mt-12 max-w-xl mx-auto">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                        <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            required
+                            value={formData.name}
+                            onChange={handleChange}
+                            className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            required
+                            value={formData.email}
+                            onChange={handleChange}
+                            className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Message</label>
+                        <textarea
+                            name="message"
+                            id="message"
+                            rows={4}
+                            required
+                            value={formData.message}
+                            onChange={handleChange}
+                            className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        ></textarea>
+                    </div>
+                    <div>
+                        <button
+                            type="submit"
+                            disabled={status === 'sending'}
+                            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400"
+                        >
+                            {status === 'sending' ? 'Sending...' : 'Send Message'}
+                        </button>
+                    </div>
+                </form>
+                {status === 'success' && <p className="mt-4 text-center text-green-600">{responseMessage}</p>}
+                {status === 'error' && <p className="mt-4 text-center text-red-600">{responseMessage}</p>}
+            </div>
+        </section>
+    );
+};
 
 // Footer Component
 const Footer = () => (
