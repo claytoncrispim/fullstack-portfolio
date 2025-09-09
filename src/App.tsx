@@ -279,9 +279,10 @@ const ContactSection = () => {
         e.preventDefault();
         setStatus('sending');
         setResponseMessage('');
-
+        
         try {
-            const response = await fetch('https://legendary-tribble-g749rw9qgv9hw45q-3001.app.github.dev/api/contact', {
+            const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/contact`;
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),

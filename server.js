@@ -1,39 +1,66 @@
+import { config } from 'dotenv';
+config();
+
 import express from 'express';
 import cors from 'cors';
+import nodemailer from 'nodemailer'; // --- NEW: Import Nodemailer
 
-// Create an instance of the Express application
 const app = express();
-// Define the port the server will listen on
-const port = 3001; // We use 3001 because our React app (Vite) is likely using 5173
+const port = 3001;
 
 app.use(cors());
 app.use(express.json());
 
-// This tells our server how to handle a GET request to the root URL ('/')
-app.get('/', (req, res) => {
-    res.send('Hello from the backend server!');
+// --- NEW: Create a Nodemailer "transporter" ---
+// This is the object that will actually send the email.
+// We configure it with our Ethereal credentials.
+const transporter = nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: process.env.ETHEREAL_USER, // Get username from .env
+        pass: process.env.ETHEREAL_PASS, // Get password from .env
+    },
 });
 
-// --- NEW: Create a POST route for the contact form ---
-// A POST route is used when the frontend is SENDING data to the backend.
-app.post('/api/contact', (req, res) => {
-    // The parsed form data is available in `req.body` thanks to our middleware.
+
+// Our test route is still here
+app.get('/', (req, res) => {
+  res.send('Hello from the backend server!');
+});
+
+
+// --- UPDATED: The contact form route is now async ---
+app.post('/api/contact', async (req, res) => {
+  try {
     const { name, email, message } = req.body;
 
-    // For now, we'll just log the data to the server's console to prove it worked.
-console.log('Received form submission: ');
-console.log({ name, email, message });
+    console.log('Received form submission:');
+    console.log({ name, email, message });
 
-// --- Important ---
-// Here is where you would normally add code to send an actual email.
-// We will tackle that in a later step.
+    // --- NEW: Send the email using our transporter ---
+    const info = await transporter.sendMail({
+        from: `"${name}" <${email}>`, // sender address
+        to: "your.real.email@example.com", // A placeholder, Ethereal will intercept this
+        subject: "New Contact Form Submission from Portfolio",
+        text: message, // plain text body
+        html: `<b>New message from:</b> ${name} (${email})<br><br><p>${message}</p>`, // html body
+    });
 
-// Send a success response back to the frontend
-res.status(200).json({ status: 'success', message: 'Your message has been received!' });
+    console.log("Message sent: %s", info.messageId);
+    // --- NEW: Get the preview URL from Ethereal ---
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 
+    res.status(200).json({ status: 'success', message: 'Your message has been sent successfully!' });
+
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.status(500).json({ status: 'error', message: 'Failed to send message.' });
+  }
 });
 
-// This starts the server and makes it listen for incoming requests on the specified port
+
 app.listen(port, '0.0.0.0', () => {
-    console.log(`Server is running successfully on http://localhost:${port}`)
+  console.log(`Server is running successfully on http://localhost:${port}`);
 });
