@@ -221,11 +221,11 @@ const SkillsSection = () => {
             // skills: ["Node.js", "Express", "Python", "Flask", "REST APIs", "GraphQL"],
             skills: ["Node.js", "Express", "Python", "REST APIs"],
         },
-        // {
-        //     title: "Databases",
-        //     icon: <Database className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>,
-        //     skills: ["MongoDB", "PostgreSQL", "Firebase", "MySQL"],
-        // },
+        {
+            title: "Databases",
+            icon: <Database className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>,
+            skills: ["MongoDB", "PostgreSQL", "Firebase", "MySQL"],
+        },
     ];
 
     return (
