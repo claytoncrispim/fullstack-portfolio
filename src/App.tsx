@@ -1,33 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Sun, Moon, Briefcase, Mail, Linkedin, Github, ArrowRight, Code, Server, Database, Menu, X } from 'lucide-react';
 
-// We are defining data separately for projects
-    const projects = [
-        {
-            title: "Bill Calculator Pro",
-            description: "An intuitive and responsive single-page application designed to help users easily manage, track, and calculate their monthly bills in a visually organized way.",
-            tags: ["HTML5", "CSS3", "Bootstrap", "JavaScript", "ES6+", "localStorage"],
-            image: "/projects-bill-calculator-pro-screenshot.png",
-            liveUrl: "https://claytoncrispim.github.io/bill-calculator-pro/",
-            codeUrl: "https://github.com/claytoncrispim/bill-calculator-pro.git",
-        },
-        {
-            title: "Project Two",
-            description: "A short description of your project. What problem does it solve and what was your role?",
-            tags: ["TypeScript", "Next.js", "MongoDB"],
-            image: "https://placehold.co/600x400/A5B4FC/1F2937?text=Project+Two",
-            liveUrl: "#",
-            codeUrl: "#",
-        },
-        {
-            title: "Project Three",
-            description: "A short description of your project. What problem does it solve and what was your role?",
-            tags: ["Python", "Flask", "PostgreSQL"],
-            image: "https://placehold.co/600x400/FBCFE8/1F2937?text=Project+Three",
-            liveUrl: "#",
-            codeUrl: "#",
-        },
-    ];
+
+const projects = [
+    {
+        title: "Culinary Compass",
+        description: "An AI-powered travel guide that generates culinary recommendations, local etiquette tips, and beautiful, AI-created images of signature dishes for any city or country in the world.",
+        tags: ["React", "Vite", "Tailwind CSS", "Gemini API", "Imagen 3 API"],
+        image: "src/assets/projects-culinary-compass-screenshot.png",
+        liveUrl: "https://claytoncrispim.github.io/culinary-compass/",
+        codeUrl: "https://github.com/claytoncrispim/culinary-compass",
+    },
+    {
+        title: "Genie Weather",
+        description: "A sleek, dynamic weather application that uses generative AI to provide current forecasts, 5-day outlooks, and personalized advice on what to wear and what to do.",
+        tags: ["React", "Vite", "Tailwind CSS", "Gemini API", "Geolocation API"],
+        image: "src/assets/projects-genie-weather-screenshot.png",
+        liveUrl: "https://claytoncrispim.github.io/genie-weather/",
+        codeUrl: "https://github.com/claytoncrispim/genie-weather",
+    },
+    {
+        title: "Link Folio",
+        description: "A complete, single-user \"link-in-bio\" style application. After registering and logging in, a user can manage a personal list of links on a secure dashboard. This project was built from the ground up to demonstrate a full range of full-stack development skills, from database design and secure API creation to building a dynamic, interactive frontend with React.",
+        tags: ["Node.js", "Express", "PostgreSQL", "Prisma", "JWT", "bcrypt", "React", "Vite", "TypeScript", "React Router", "Tailwind CSS"],
+        image: "src/assets/projects-link-folio-screenshot.png",
+        liveUrl: "https://link-folio-nu.vercel.app/",
+        codeUrl: "https://github.com/claytoncrispim/link-folio",
+    },
+    {
+        title: "Bill Calculator Pro",
+        description: "An intuitive and responsive single-page application designed to help users easily manage, track, and calculate their monthly bills in a visually organized way.",
+        tags: ["HTML5", "CSS3", "Bootstrap", "JavaScript", "localStorage"],
+        image: "src/assets/projects-bill-calculator-pro-screenshot.png",
+        liveUrl: "https://claytoncrispim.github.io/bill-calculator-pro/",
+        codeUrl: "https://github.com/claytoncrispim/bill-calculator-pro",
+    },
+];
 
 // ProjectCard Component
 // It takes a project object as prop and displays it
@@ -43,8 +51,8 @@ const ProjectCard = ({ project }) => (
             </div>
             <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
             <div className="flex space-x-4">
-                <a href={project.liveUrl} className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">Live Demo</a>
-                <a href={project.codeUrl} className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">View Code</a>
+                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">Live Demo</a>
+                <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">View Code</a>
             </div>
         </div>
     </div>
@@ -114,7 +122,7 @@ const Header = ({ darkMode, toggleDarkMode, navLinks, mobileMenuOpen, toggleMobi
                     <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
                         {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                     </button>
-                    <a href="#" className="hidden md:inline-flex items-center bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors shadow">
+                    <a href="/Clayton_Crispim_CV.pdf" target="_blank" rel="noopener noreferrer" className="hidden md:inline-flex items-center bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors shadow">
                         Resume <Briefcase className="ml-2 h-4 w-4" />
                     </a>
                     {/* Mobile Menu Button */}
@@ -130,7 +138,7 @@ const Header = ({ darkMode, toggleDarkMode, navLinks, mobileMenuOpen, toggleMobi
                         {navLinks.map(link => (
                             <a key={link.href} href={link.href} onClick={toggleMobileMenu} className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{link.label}</a>
                         ))}
-                        <a href="https://www.linkedin.com/in/claytoncrispim/" className="inline-flex items-center bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors shadow">
+                        <a href="/Clayton_Crispim_CV.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors shadow">
                             Resume <Briefcase className="ml-2 h-4 w-4" />
                         </a>
                     </nav>
@@ -144,8 +152,7 @@ const Header = ({ darkMode, toggleDarkMode, navLinks, mobileMenuOpen, toggleMobi
 // Hero Section Component
 const HeroSection = () => (
     <section id="home" className="py-24 md:py-32 flex flex-col items-center text-center">
-        {/* <img src="https://imgur.com/a/b0aW2Lg" alt="Clayton Crispim" className="rounded-full w-32 h-32 mb-6 border-4 border-white dark:border-gray-800 shadow-lg"/> */}
-        <img src="/20190827_140626_cropped.jpg" alt="Clayton Crispim" className="rounded-full w-32 h-32 mb-6 border-4 border-white dark:border-gray-800 shadow-lg"/>
+        <img src="src/assets/20190827_140626_cropped.jpg" alt="Clayton Crispim" className="rounded-full w-32 h-32 mb-6 border-4 border-white dark:border-gray-800 shadow-lg"/>
         <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight mb-4">
             Hi, I'm Clayton Crispim. <br />
             <span className="text-indigo-600 dark:text-indigo-400">A Full-Stack Developer.</span>
@@ -191,13 +198,11 @@ const AboutSection = () => (
 
 
 // Projects Section Component
-// 1. We use the projects array defined at the top.
-// 2. We use the ProjectCard component to render each project.
 const ProjectsSection = () => {
     return (
         <section id="projects" className="py-20 md:py-28">
              <h2 className="text-3xl font-bold text-center mb-12">My Work</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                 {projects.map((project, index) => (
                     <ProjectCard key={index} project={project} />
                 ))}
@@ -208,7 +213,6 @@ const ProjectsSection = () => {
 
 // Skills Section Component
 const SkillsSection = () => {
-    // Skills data
     const skillsData =  [
         {
             title: "Frontend",
@@ -218,13 +222,12 @@ const SkillsSection = () => {
         {
             title: "Backend",
             icon: <Server className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>,
-            // skills: ["Node.js", "Express", "Python", "Flask", "REST APIs", "GraphQL"],
             skills: ["Node.js", "Express", "Python", "REST APIs"],
         },
         {
             title: "Databases",
             icon: <Database className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>,
-            skills: ["MongoDB", "PostgreSQL", "Firebase", "MySQL"],
+            skills: ["PostgreSQL", "SQL", "MySQL"],
         },
     ];
 
@@ -260,22 +263,16 @@ const SkillCategory = ({ icon, title, skills }) => (
 
 // Contact Section Component
 const ContactSection = () => {
-    // State to hold the form data
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: '',
-    });
-    // State to hold the submission status
-    const [status, setStatus] = useState('idle'); // idle | sending | success | error
+    const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+    const [status, setStatus] = useState('idle');
     const [responseMessage, setResponseMessage] = useState('');
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setStatus('sending');
         setResponseMessage('');
@@ -293,7 +290,7 @@ const ContactSection = () => {
             if (response.ok) {
                 setStatus('success');
                 setResponseMessage(data.message);
-                setFormData({ name: '', email: '', message: '' }); // Clear form
+                setFormData({ name: '', email: '', message: '' });
             } else {
                 setStatus('error');
                 setResponseMessage(data.message || 'An error occurred.');
@@ -372,8 +369,8 @@ const Footer = () => (
     <footer className="bg-gray-100 dark:bg-gray-800 py-8">
         <div className="container mx-auto px-6 md:px-12 text-center text-gray-600 dark:text-gray-400">
             <div className="flex justify-center space-x-6 mb-4">
-                <a href="https://github.com/claytoncrispim" className="hover:text-indigo-600 dark:hover:text-indigo-400"><Github /></a>
-                <a href="https://www.linkedin.com/in/claytoncrispim/" className="hover:text-indigo-600 dark:hover:text-indigo-400"><Linkedin /></a>
+                <a href="https://github.com/claytoncrispim" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 dark:hover:text-indigo-400"><Github /></a>
+                <a href="https://www.linkedin.com/in/claytoncrispim/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 dark:hover:text-indigo-400"><Linkedin /></a>
                 <a href="mailto:claytonrpcrispim@gmail.com" className="hover:text-indigo-600 dark:hover:text-indigo-400"><Mail /></a>
             </div>
             <p>&copy; {new Date().getFullYear()} Clayton Crispim. All Rights Reserved.</p>
