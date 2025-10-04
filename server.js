@@ -9,8 +9,27 @@ const PORT = process.env.PORT || 3001;
 // Initialize Resend with your API key from environment variables
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// --- NEW: CORS Configuration ---
+// We define a list of allowed origins.
+// This tells our backend server that it's okay to accept requests
+// from our local development server and our future live GitHub Pages site.
+const allowedOrigins = [
+  'http://localhost:5173', // Your local development URL
+  'https://claytoncrispim.github.io' // Your future live portfolio URL
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
 // Middleware
-app.use(cors()); // Enable Cross-Origin Resource Sharing
+app.use(cors(corsOptions)); // Use the new CORS options
 app.use(express.json()); // Parse JSON bodies
 
 // --- API Route for Contact Form ---
