@@ -1,7 +1,37 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Sun, Moon, Briefcase, Mail, Linkedin, Github, ArrowRight, Code, Server, Database, Menu, X } from 'lucide-react';
 
+// --- TYPE DEFINITIONS ---
+// We define the "shape" of our data to help TypeScript catch errors.
+type Project = {
+    title: string;
+    description: string;
+    tags: string[];
+    image?: string; // image is optional
+    liveUrl: string;
+    codeUrl: string;
+};
 
+type NavLink = {
+    href: string;
+    label: string;
+};
+
+type HeaderProps = {
+    darkMode: boolean;
+    toggleDarkMode: () => void;
+    navLinks: NavLink[];
+    mobileMenuOpen: boolean;
+    toggleMobileMenu: () => void;
+};
+
+type SkillCategoryProps = {
+    icon: React.ReactNode;
+    title: string;
+    skills: string[];
+};
+
+// --- DATA ---
 const projects = [
     {
         title: "Culinary Compass",
@@ -37,15 +67,18 @@ const projects = [
     },
 ];
 
-// ProjectCard Component
-// It takes a project object as prop and displays it
-const ProjectCard = ({ project }) => (
+// --- COMPONENTS ---
+
+/**
+ * Renders a single project card with an image, title, tags, description, and links.
+ */
+const ProjectCard = ({ project }: { project: Project }) => (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
         <img src={project.image} alt={project.title} className="w-full h-48 object-cover object-top" />
         <div className="p-6">
             <h3 className="text-xl font-bold mb-2">{project.title}</h3>
             <div className="flex flex-wrap gap-2 mb-4">
-                {project.tags.map(tag => (
+                {project.tags.map((tag: string) => (
                     <span key={tag} className="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">{tag}</span>
                 ))}
             </div>
@@ -58,7 +91,9 @@ const ProjectCard = ({ project }) => (
     </div>
 );
 
-// Main App Component
+/**
+ * The main application component. It manages the overall state (like dark mode) and lays out all the sections of the portfolio.
+ */
 export default function App() {
     const [darkMode, setDarkMode] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -71,15 +106,10 @@ export default function App() {
         }
     }, [darkMode]);
 
-    const toggleDarkMode = () => {
-        setDarkMode(!darkMode);
-    };
+    const toggleDarkMode = () => setDarkMode(!darkMode);
+    const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
 
-    const toggleMobileMenu = () => {
-        setMobileMenuOpen(!mobileMenuOpen);
-    };
-
-    const navLinks = [
+    const navLinks: NavLink[] = [
         { href: '#about', label: 'About' },
         { href: '#projects', label: 'Projects' },
         { href: '#skills', label: 'Skills' },
@@ -107,49 +137,48 @@ export default function App() {
     );
 }
 
-// Header Component
-const Header = ({ darkMode, toggleDarkMode, navLinks, mobileMenuOpen, toggleMobileMenu }) => {
-    return (
-        <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-sm">
-            <div className="container mx-auto px-6 md:px-12 lg:px-24 py-4 flex justify-between items-center">
-                <a href="#" className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">Clayton Crispim</a>
-                <nav className="hidden md:flex items-center space-x-6">
-                    {navLinks.map(link => (
-                        <a key={link.href} href={link.href} className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{link.label}</a>
+/**
+ * Renders the sticky header navigation bar, including the logo, navigation links, dark mode toggle, and mobile menu functionality.
+ */
+const Header = ({ darkMode, toggleDarkMode, navLinks, mobileMenuOpen, toggleMobileMenu }: HeaderProps) => (
+    <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-sm">
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 py-4 flex justify-between items-center">
+            <a href="#" className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">Clayton Crispim</a>
+            <nav className="hidden md:flex items-center space-x-6">
+                {navLinks.map((link: NavLink) => (
+                    <a key={link.href} href={link.href} className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{link.label}</a>
+                ))}
+            </nav>
+            <div className="flex items-center space-x-4">
+                <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                </button>
+                <a href="/Clayton_Crispim_CV.pdf" target="_blank" rel="noopener noreferrer" className="hidden md:inline-flex items-center bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors shadow">
+                    Resume <Briefcase className="ml-2 h-4 w-4" />
+                </a>
+                <button onClick={toggleMobileMenu} className="md:hidden p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                    {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                </button>
+            </div>
+        </div>
+        {mobileMenuOpen && (
+            <div className="md:hidden bg-white dark:bg-gray-800 py-4 px-6">
+                <nav className="flex flex-col space-y-4">
+                    {navLinks.map((link: NavLink) => (
+                        <a key={link.href} href={link.href} onClick={toggleMobileMenu} className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{link.label}</a>
                     ))}
-                </nav>
-                <div className="flex items-center space-x-4">
-                    <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                        {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                    </button>
-                    <a href="/Clayton_Crispim_CV.pdf" target="_blank" rel="noopener noreferrer" className="hidden md:inline-flex items-center bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors shadow">
+                    <a href="/Clayton_Crispim_CV.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors shadow">
                         Resume <Briefcase className="ml-2 h-4 w-4" />
                     </a>
-                    {/* Mobile Menu Button */}
-                    <button onClick={toggleMobileMenu} className="md:hidden p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
-                        {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                    </button>
-                </div>
+                </nav>
             </div>
-            {/* Mobile Menu */}
-            {mobileMenuOpen && (
-                <div className="md:hidden bg-white dark:bg-gray-800 py-4 px-6">
-                    <nav className="flex flex-col space-y-4">
-                        {navLinks.map(link => (
-                            <a key={link.href} href={link.href} onClick={toggleMobileMenu} className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{link.label}</a>
-                        ))}
-                        <a href="/Clayton_Crispim_CV.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors shadow">
-                            Resume <Briefcase className="ml-2 h-4 w-4" />
-                        </a>
-                    </nav>
-                </div>
-            )}
-        </header>
-    );
-};
+        )}
+    </header>
+);
 
-
-// Hero Section Component
+/**
+ * Renders the main hero section with the profile picture, headline, and call-to-action buttons.
+ */
 const HeroSection = () => (
     <section id="home" className="py-24 md:py-32 flex flex-col items-center text-center">
         <img src="src/assets/20190827_140626_cropped.jpg" alt="Clayton Crispim" className="rounded-full w-32 h-32 mb-6 border-4 border-white dark:border-gray-800 shadow-lg"/>
@@ -171,66 +200,50 @@ const HeroSection = () => (
     </section>
 );
 
-// About Section Component
+/**
+ * Renders the "About Me" section with a personal summary and a developer illustration.
+ */
 const AboutSection = () => (
     <section id="about" className="py-20 md:py-28 bg-white dark:bg-gray-800 rounded-xl shadow-lg my-12">
         <div className="container mx-auto px-6 md:px-12">
             <h2 className="text-3xl font-bold text-center mb-12">About Me</h2>
             <div className="flex flex-col md:flex-row items-center gap-12">
                 <div className="md:w-2/3 space-y-4 text-lg text-gray-700 dark:text-gray-300">
-                    <p>
-                        Hello! I'm a passionate full-stack developer with a love for building things for the web. My journey into technology started with a simple "Hello, World!" and has since grown into a full-fledged passion for creating intuitive, dynamic, and impactful web applications.
-                    </p>
-                    <p>
-                        I thrive on the challenge of solving complex problems and I'm committed to the principle of continuous learning. Whether it's architecting a backend API or perfecting the user interface, I'm dedicated to writing clean, efficient, and maintainable code.
-                    </p>
-                    <p>
-                        When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or enjoying a good cup of coffee.
-                    </p>
+                    <p>Hello! I'm a passionate full-stack developer with a love for building things for the web. My journey into technology started with a simple "Hello, World!" and has since grown into a full-fledged passion for creating intuitive, dynamic, and impactful web applications.</p>
+                    <p>I thrive on the challenge of solving complex problems and I'm committed to the principle of continuous learning. Whether it's architecting a backend API or perfecting the user interface, I'm dedicated to writing clean, efficient, and maintainable code.</p>
+                    <p>When I'm not coding, you can find me exploring new technologies, planning my next project, or enjoying a good cup of coffee.</p>
                 </div>
                 <div className="md:w-1/3 flex justify-center">
-                    <img src="https://placehold.co/400x400/93C5FD/1E293B?text=Illustration" alt="Developer Illustration" className="rounded-lg shadow-2xl w-full max-w-sm"/>
+                    <img src="/dev-illustration.svg" alt="Developer Illustration" className="rounded-lg shadow-2xl w-full max-w-sm"/>
                 </div>
             </div>
         </div>
     </section>
 );
 
+/**
+ * Renders the "My Work" section, which maps over the projects array and displays a ProjectCard for each one.
+ */
+const ProjectsSection = () => (
+    <section id="projects" className="py-20 md:py-28">
+         <h2 className="text-3xl font-bold text-center mb-12">My Work</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+            {projects.map((project: Project, index: number) => (
+                <ProjectCard key={index} project={project} />
+            ))}
+        </div>
+    </section>
+);
 
-// Projects Section Component
-const ProjectsSection = () => {
-    return (
-        <section id="projects" className="py-20 md:py-28">
-             <h2 className="text-3xl font-bold text-center mb-12">My Work</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-                {projects.map((project, index) => (
-                    <ProjectCard key={index} project={project} />
-                ))}
-            </div>
-        </section>
-    )
-};
-
-// Skills Section Component
+/**
+ * Renders the "Technologies I Use" section, organizing skills into categories like Frontend, Backend, and Databases.
+ */
 const SkillsSection = () => {
     const skillsData =  [
-        {
-            title: "Frontend",
-            icon: <Code className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>,
-            skills: ["JavaScript (ES6+)", "TypeScript", "React", "Next.js", "HTML5", "CSS3", "Tailwind CSS"],
-        },
-        {
-            title: "Backend",
-            icon: <Server className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>,
-            skills: ["Node.js", "Express", "Python", "REST APIs"],
-        },
-        {
-            title: "Databases",
-            icon: <Database className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>,
-            skills: ["PostgreSQL", "SQL", "MySQL"],
-        },
+        { title: "Frontend", icon: <Code className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>, skills: ["JavaScript (ES6+)", "TypeScript", "React", "Next.js", "HTML5", "CSS3", "Tailwind CSS"] },
+        { title: "Backend", icon: <Server className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>, skills: ["Node.js", "Express", "Python", "REST APIs"] },
+        { title: "Databases", icon: <Database className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>, skills: ["PostgreSQL", "SQL", "MySQL"] },
     ];
-
     return (
         <section id="skills" className="py-20 md:py-28 bg-white dark:bg-gray-800 rounded-xl shadow-lg my-12">
             <div className="container mx-auto px-6 md:px-12">
@@ -250,29 +263,33 @@ const SkillsSection = () => {
     );
 };
 
-const SkillCategory = ({ icon, title, skills }) => (
+/**
+ * A reusable component to display a single category of skills with an icon, title, and a list of technologies.
+ */
+const SkillCategory = ({ icon, title, skills }: SkillCategoryProps) => (
     <div className="p-6 rounded-lg">
         {icon}
         <h3 className="text-xl font-bold mb-4">{title}</h3>
         <ul className="space-y-2">
-            {skills.map(skill => <li key={skill} className="text-gray-600 dark:text-gray-400">{skill}</li>)}
+            {skills.map((skill: string) => <li key={skill} className="text-gray-600 dark:text-gray-400">{skill}</li>)}
         </ul>
     </div>
 );
 
-
-// Contact Section Component
+/**
+ * Renders the "Get In Touch" section, including a contact form that sends data to the serverless backend.
+ */
 const ContactSection = () => {
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [status, setStatus] = useState('idle');
     const [responseMessage, setResponseMessage] = useState('');
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setStatus('sending');
         setResponseMessage('');
@@ -284,9 +301,7 @@ const ContactSection = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             });
-
             const data = await response.json();
-
             if (response.ok) {
                 setStatus('success');
                 setResponseMessage(data.message);
@@ -300,59 +315,28 @@ const ContactSection = () => {
             setResponseMessage('Something went wrong. Please try again.');
         }
     };
-
     return (
         <section id="contact" className="py-20 md:py-28">
             <div className="text-center">
                 <h2 className="text-3xl font-bold">Get In Touch</h2>
-                <p className="text-lg text-gray-600 dark:text-gray-400 mt-4 max-w-xl mx-auto">
-                    Have a question or want to work together? Leave your details and I'll get back to you.
-                </p>
+                <p className="text-lg text-gray-600 dark:text-gray-400 mt-4 max-w-xl mx-auto">Have a question or want to work together? Leave your details and I'll get back to you.</p>
             </div>
             <div className="mt-12 max-w-xl mx-auto">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
-                        <input
-                            type="text"
-                            name="name"
-                            id="name"
-                            required
-                            value={formData.name}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                        />
+                        <input type="text" name="name" id="name" required value={formData.name} onChange={handleChange} className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
                     </div>
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            required
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                        />
+                        <input type="email" name="email" id="email" required value={formData.email} onChange={handleChange} className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
                     </div>
                     <div>
                         <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Message</label>
-                        <textarea
-                            name="message"
-                            id="message"
-                            rows={4}
-                            required
-                            value={formData.message}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                        ></textarea>
+                        <textarea name="message" id="message" rows={4} required value={formData.message} onChange={handleChange} className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
                     </div>
                     <div>
-                        <button
-                            type="submit"
-                            disabled={status === 'sending'}
-                            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400"
-                        >
+                        <button type="submit" disabled={status === 'sending'} className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400">
                             {status === 'sending' ? 'Sending...' : 'Send Message'}
                         </button>
                     </div>
@@ -364,7 +348,9 @@ const ContactSection = () => {
     );
 };
 
-// Footer Component
+/**
+ * Renders the footer with social media links and copyright information.
+ */
 const Footer = () => (
     <footer className="bg-gray-100 dark:bg-gray-800 py-8">
         <div className="container mx-auto px-6 md:px-12 text-center text-gray-600 dark:text-gray-400">
