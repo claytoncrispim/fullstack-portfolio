@@ -14,7 +14,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // This tells our backend server that it's okay to accept requests
 // from our local development server and our future live GitHub Pages site.
 const allowedOrigins = [
-  'http://localhost:5173', // Your local development URL
+  'http://localhost:5173/', // Your local development URL
   'https://claytoncrispim.github.io' // Your future live portfolio URL
 ];
 
