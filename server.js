@@ -14,7 +14,8 @@ app.use(cors()); // Enable Cross-Origin Resource Sharing
 app.use(express.json()); // Parse JSON bodies
 
 // --- API Route for Contact Form ---
-app.post('/api/contact', async (req, res) => {
+// The '?' makes the trailing slash optional, handling Vercel's redirect.
+app.post('/api/contact/?', async (req, res) => {
   try {
     const { name, email, message } = req.body;
 
