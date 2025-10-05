@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import { Resend } from 'resend';
-import 'dotenv/config';
+//import 'dotenv/config'; // NOTE: We have removed 'dotenv/config' as Vercel handles environment variables natively.
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -35,7 +36,8 @@ app.post('/api/contact/', async (req, res) => {
 
     if (error) {
       console.error({ error });
-      return res.status(400).json({ message: 'Error sending email.', error });
+      // Send the actual error from Resend back for better debugging  
+      return res.status(400).json({ message: 'Error from Resend', error });
     }
 
     res.status(200).json({ message: 'Your message has been sent successfully!', data });
@@ -45,10 +47,12 @@ app.post('/api/contact/', async (req, res) => {
   }
 });
 
-// Start the server (for local testing, not used by Vercel)
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// NOTE: We have removed the app.listen() block.
+// Vercel handles the server listening process automatically for serverless functions.
+// // Start the server (for local testing, not used by Vercel)
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
 
 // Export the app for Vercel
 export default app;
