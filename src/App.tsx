@@ -1,6 +1,7 @@
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Sun, Moon, Briefcase, Mail, Linkedin, Github, ArrowRight, Code, Server, Database, Menu, X } from 'lucide-react';
 
+
 // --- TYPE DEFINITIONS ---
 // We define the "shape" of our data to help TypeScript catch errors.
 type Project = {

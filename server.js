@@ -9,21 +9,11 @@ const PORT = process.env.PORT || 3001;
 // Initialize Resend with your API key from environment variables
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// --- UPDATED: Simpler & More Direct CORS Configuration ---
-const allowedOrigins = [
-  'http://localhost:5173',          // Your local development URL
-  'https://claytoncrispim.github.io'  // Your future live portfolio URL
-];
-
-// We now pass the array of allowed origins directly to the cors options.
-// This is a more direct and often more reliable configuration.
-const corsOptions = {
-  origin: allowedOrigins
-};
-
 // Middleware
-app.use(cors(corsOptions)); // Use the updated CORS options
-app.use(express.json()); // Parse JSON bodies
+// Use a simple, general CORS middleware as a fallback.
+// The primary CORS handling is now in vercel.json.
+app.use(cors()); 
+app.use(express.json());
 
 // --- API Route for Contact Form ---
 app.post('/api/contact/?', async (req, res) => {

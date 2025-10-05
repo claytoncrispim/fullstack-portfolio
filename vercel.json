@@ -1,16 +1,21 @@
+{
+  "version": 2,
+  "builds": [
     {
-      "version": 2,
-      "builds": [
-        {
-          "src": "server.js",
-          "use": "@vercel/node"
-        }
-      ],
-      "routes": [
-        {
-          "src": "/api/contact",
-          "dest": "server.js"
-        }
-      ]
+      "src": "server.js",
+      "use": "@vercel/node"
     }
-    
+  ],
+  "routes": [
+    {
+      "src": "/api/contact/?",
+      "dest": "server.js",
+      "methods": ["POST", "OPTIONS"],
+      "headers": {
+        "Access-Control-Allow-Origin": "http://localhost:5173",
+        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+      }
+    }
+  ]
+}
+
