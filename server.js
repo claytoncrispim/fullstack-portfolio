@@ -2,8 +2,6 @@ import express from 'express';
 import { Resend } from 'resend';
 
 const app = express();
-// Initialize Resend with your API key from environment variables
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 // --- The Definitive Manual CORS Middleware ---
 // This function will run on EVERY request that comes into our server.
@@ -42,6 +40,12 @@ app.use(express.json());
 // The main API route for handling the form submission
 app.post('/api/contact/', async (req, res) => {
   try {
+    // --- THIS IS THE FIX ---
+    // We initialize Resend *inside* the handler.
+    // This ensures it always has the fresh, correct API key for every request.
+    // Initialize Resend with your API key from environment variables
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     const { name, email, message } = req.body;
     const { data, error } = await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>',
