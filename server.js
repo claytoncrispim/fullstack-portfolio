@@ -1,37 +1,41 @@
 import express from 'express';
-import cors from 'cors';
 import { Resend } from 'resend';
 
 const app = express();
 // Initialize Resend with your API key from environment variables
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// --- The Definitive CORS Configuration ---
-// We define our allowed origins
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://claytoncrispim.github.io',
-  'https://www.claytoncrispim.com' // Adding your future custom domain
-];
+// --- The Definitive Manual CORS Middleware ---
+// This function will run on EVERY request that comes into our server.
+app.use((req, res, next) => {
+  // Define the list of websites that are allowed to talk to our server.
+  const allowedOrigins = [
+    'http://localhost:5173',
+    'https://claytoncrispim.github.io',
+    'https://www.claytoncrispim.com'
+  ];
+  
+  const origin = req.headers.origin;
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
+  // If the incoming request is from an allowed website, set the permission header.
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
   }
-};
 
-// --- The Final Fix: Handle Preflight Requests ---
-// The browser sends an OPTIONS request first to check if it's safe to send the real request.
-// This line explicitly handles that check and tells the browser "yes, it's safe".
-app.options('/api/contact/', cors(corsOptions));
+  // Set the other necessary headers for CORS.
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-// Middleware
+  // This is the crucial part for the "preflight" check.
+  // If the browser sends an OPTIONS request, we handle it here and send back a success status.
+  if (req.method === 'OPTIONS') {
+    return res.status(204).send('');
+  }
+
+  // If it's not a preflight check, continue to our main API route.
+  next();
+});
+
 // We only need the json middleware now
 app.use(express.json());
 
