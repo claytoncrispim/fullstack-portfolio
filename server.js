@@ -1,30 +1,44 @@
 import express from 'express';
-// NOTE: We have removed the 'cors' package as it's now handled by vercel.json
-// import cors from 'cors';
+import cors from 'cors';
 import { Resend } from 'resend';
-// NOTE: We have removed 'dotenv/config' as Vercel handles environment variables natively.
-//import 'dotenv/config';
-
 
 const app = express();
-
-// --- DIAGNOSTIC LOGGING ---
-// This is the most important line. It will show us in the Vercel logs
-// what value the RESEND_API_KEY environment variable actually holds.
-// console.log('Server starting... RESEND_API_KEY:', process.env.RESEND_API_KEY ? `is set (ends with ...${process.env.RESEND_API_KEY.slice(-4)})` : 'is UNDEFINED');
-
 // Initialize Resend with your API key from environment variables
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+// --- The Definitive CORS Configuration ---
+// We define our allowed origins
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://claytoncrispim.github.io',
+  'https://www.claytoncrispim.com' // Adding your future custom domain
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+};
+
+// --- The Final Fix: Handle Preflight Requests ---
+// The browser sends an OPTIONS request first to check if it's safe to send the real request.
+// This line explicitly handles that check and tells the browser "yes, it's safe".
+app.options('/api/contact/', cors(corsOptions));
 
 // Middleware
 // We only need the json middleware now
 app.use(express.json());
 
-// --- API Route for Contact Form ---
+// The main API route for handling the form submission
 app.post('/api/contact/', async (req, res) => {
   try {
     const { name, email, message } = req.body;
-
     const { data, error } = await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>',
       to: ['claytonrpcrispim@outlook.com'], // Make sure this is your correct Outlook email
@@ -44,12 +58,10 @@ app.post('/api/contact/', async (req, res) => {
       return res.status(400).json({ message: 'Error from Resend', error });
     }
 
-    // IMPORTANT: Set the origin header in the response to match the request
-    res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
     res.status(200).json({ message: 'Your message has been sent successfully!', data });
 
   } catch (error) {
-    console.error(error);
+    console.error('Server catch block error:', error);
     res.status(500).json({ message: 'Internal server error.' });
   }
 });
