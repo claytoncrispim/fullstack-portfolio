@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 // --- API Route for Contact Form ---
-app.post('/api/contact/?', async (req, res) => {
+app.post('/api/contact/', async (req, res) => {
   try {
     const { name, email, message } = req.body;
 

@@ -296,7 +296,9 @@ const ContactSection = () => {
         setResponseMessage('');
         
         try {
-            const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/contact`;
+            // --- THIS IS THE FIX ---
+            // We add the trailing slash to match what Vercel expects.
+            const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/contact/`;
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
