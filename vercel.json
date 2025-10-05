@@ -8,13 +8,18 @@
   ],
   "routes": [
     {
-      "src": "/api/contact/",
-      "dest": "server.js",
-      "methods": ["POST", "OPTIONS"],
+      "src": "/(.*)",
+      "methods": ["OPTIONS"],
       "headers": {
-        "Access-Control-Allow-Origin": "http://localhost:5173",
-        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
-      }
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
+      },
+      "dest": "server.js"
+    },
+    {
+      "src": "/api/contact/",
+      "dest": "server.js"
     }
   ]
 }

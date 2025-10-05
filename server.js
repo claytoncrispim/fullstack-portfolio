@@ -5,15 +5,29 @@ import { Resend } from 'resend';
 
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+
+// --- DIAGNOSTIC LOGGING ---
+// This is the most important line. It will show us in the Vercel logs
+// what value the RESEND_API_KEY environment variable actually holds.
+console.log('Server starting... RESEND_API_KEY:', process.env.RESEND_API_KEY ? `is set (ends with ...${process.env.RESEND_API_KEY.slice(-4)})` : 'is UNDEFINED');
 
 // Initialize Resend with your API key from environment variables
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// --- ROBUST CORS CONFIGURATION ---
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://claytoncrispim.github.io'
+];
+
+const corsOptions = {
+  origin: allowedOrigins
+};
+
 // Middleware
 // Use a simple, general CORS middleware as a fallback.
 // The primary CORS handling is now in vercel.json.
-app.use(cors()); 
+app.use(cors(corsOptions)); 
 app.use(express.json());
 
 // --- API Route for Contact Form ---
