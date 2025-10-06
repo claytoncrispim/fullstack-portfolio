@@ -1,0 +1,13 @@
+[build]
+  # This is the command to build your frontend
+  command = "npm run build"
+  # This is where Netlify will find your frontend files to publish
+  publish = "frontend/dist"
+  # This is where your backend serverless functions are located
+  functions = "backend/"
+
+[dev]
+  # This tells the local Netlify dev server how to run your frontend
+  command = "npm run dev"
+  targetPort = 5173
+  publish = "frontend/dist"
