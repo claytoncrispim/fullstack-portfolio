@@ -1,18 +1,14 @@
 [build]
-  # This tells Netlify to change its directory to 'frontend' BEFORE running any commands.
+  # This tells Netlify to change its directory to 'frontend'
   base = "frontend/"
   
-  # Since we are already inside 'frontend', the publish directory is simply 'dist'.
+  # The commands to build our frontend
   command = "npm run build"
   publish = "dist/"
-  
-  # The functions directory is one level up from 'frontend', then into 'backend'.
-  functions = "../backend/"
 
-# --- THIS IS THE FINAL FIX ---
-# This rule tells Netlify how to route API requests.
-# It says: "Any request that starts with /api/, send it to our 'server' function."
+# --- THIS IS THE FIX ---
+# We update the redirect to point to our new function name, 'contact'.
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/server/:splat"
+  to = "/.netlify/functions/contact"
   status = 200
