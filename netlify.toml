@@ -1,13 +1,14 @@
 [build]
-  # This is the command to build your frontend
+  # --- THIS IS THE FINAL FIX ---
+  # This tells Netlify to change its directory to 'frontend' BEFORE running any commands.
+  base = "frontend/"
+  
+  # Now, these commands will run from inside the correct folder.
   command = "npm run build"
-  # This is where Netlify will find your frontend files to publish
   publish = "frontend/dist"
-  # This is where your backend serverless functions are located
   functions = "backend/"
 
 [dev]
-  # This tells the local Netlify dev server how to run your frontend
   command = "npm run dev"
   targetPort = 5173
   publish = "frontend/dist"
