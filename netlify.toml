@@ -1,14 +1,16 @@
 [build]
-  # --- THIS IS THE FINAL FIX ---
   # This tells Netlify to change its directory to 'frontend' BEFORE running any commands.
   base = "frontend/"
   
-  # Now, these commands will run from inside the correct folder.
+  # --- THIS IS THE FINAL FIX ---
+  # Since we are already inside 'frontend', the publish directory is simply 'dist'.
   command = "npm run build"
-  publish = "frontend/dist"
-  functions = "backend/"
+  publish = "dist/"
+  
+  # The functions directory is one level up from 'frontend', then into 'backend'.
+  functions = "../backend/"
 
 [dev]
   command = "npm run dev"
   targetPort = 5173
-  publish = "frontend/dist"
+  publish = "dist/"
