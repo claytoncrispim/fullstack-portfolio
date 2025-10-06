@@ -42,10 +42,12 @@ app.post('/api/contact/', async (req, res) => {
   try {
     // Initialize Resend *inside* the handler to ensure it always gets the correct API key.
     const resend = new Resend(process.env.RESEND_API_KEY);
-
     const { name, email, message } = req.body;
     const { data, error } = await resend.emails.send({
-      from: 'Portfolio Contact <onboarding@resend.dev>',
+      // --- THIS IS THE FINAL FIX ---
+      // We are now sending from a professional address on your verified domain.
+      // This is what Resend expects for production applications.
+      from: 'contact@claytoncrispim.com',
       to: ['claytonrpcrispim@outlook.com'], // Make sure this is your correct Outlook email
       subject: `New Message from ${name} via Portfolio`,
       html: `
