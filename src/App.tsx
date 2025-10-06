@@ -360,7 +360,7 @@ const Footer = () => (
             <div className="flex justify-center space-x-6 mb-4">
                 <a href="https://github.com/claytoncrispim" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 dark:hover:text-indigo-400"><Github /></a>
                 <a href="https://www.linkedin.com/in/claytoncrispim/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 dark:hover:text-indigo-400"><Linkedin /></a>
-                <a href="mailto:claytonrpcrispim@gmail.com" className="hover:text-indigo-600 dark:hover:text-indigo-400"><Mail /></a>
+                <a href="mailto:claytonrpcrispim@outlook.com" className="hover:text-indigo-600 dark:hover:text-indigo-400"><Mail /></a>
             </div>
             <p>&copy; {new Date().getFullYear()} Clayton Crispim. All Rights Reserved.</p>
         </div>
