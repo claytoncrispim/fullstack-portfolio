@@ -1,16 +1,19 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // server: {
-  //   host: true,
-  //   proxy: {
-  //     '/api': {
-  //       target: 'http://localhost:3001',
-  //       changeOrigin: true,
-  //     },
-  //   }
-  // }
+  // --- THIS IS THE FINAL FIX ---
+  // We add this 'server' section to configure the local development server.
+  server: {
+    proxy: {
+      // This rule tells Vite that any request starting with '/api'
+      // should be forwarded to our live Netlify backend.
+      '/api': {
+        target: 'https://glittery-biscuit-328eb3.netlify.app',
+        changeOrigin: true, // This is important for security (CORS)
+      },
+    }
+  }
 })
