@@ -14,8 +14,10 @@
   to = "/.netlify/functions/contact"
   status = 200
 
-# This section now calls our simple, reliable npm script from the root.
+# This section is the instruction manual for the LOCAL 'netlify dev' command.
 [dev]
+  # This tells the Netlify CLI to run our master "dev" script.
   command = "npm run dev"
   targetPort = 5173
   functions = "netlify/functions"
+
