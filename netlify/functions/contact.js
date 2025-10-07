@@ -127,7 +127,7 @@ export const handler = async (event, context) => {
       headers: {
         'Access-Control-Allow-Origin': '*', // Or your specific domain
       },
-      body: JSON.stringify({ message: 'Success!', data }),
+      body: JSON.stringify({ message: 'Your message has been successfully sent!', data }),
     };
 
   } catch (error) {
