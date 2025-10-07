@@ -6,14 +6,17 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      // This rule will intercept our clean '/api/contact' call
+      // This rule says: "Any request starting with '/api'..."
       '/api': {
-        // We tell it to forward directly to the REAL function URL
-        target: 'https://glittery-biscuit-328eb3.netlify.app/.netlify/functions',
+        // "...forward it to our main Netlify site address."
+        target: 'https://glittery-biscuit-328eb3.netlify.app',
         changeOrigin: true,
-        // This rewrite rule correctly formats the final URL.
-        // It changes '/api/contact' to '/contact' before sending it.
-        rewrite: (path) => path.replace(/^\/api/, ''),
+
+        // --- THE FINAL FIX ---
+        // This tells Vite to be extremely verbose in the terminal about the proxy.
+        logLevel: 'debug',
+        // This tells the proxy not to fail on SSL certificate issues.
+        secure: false,
       },
     }
   }

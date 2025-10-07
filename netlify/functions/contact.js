@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // The main API route for handling the form submission
-app.post('/api/contact', async (req, res) => {
+app.post('/api/contact/', async (req, res) => {
   try {
     // Initialize Resend *inside* the handler to ensure it always gets the correct API key.
     const resend = new Resend(process.env.RESEND_API_KEY);

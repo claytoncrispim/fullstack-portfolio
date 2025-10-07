@@ -1,14 +1,28 @@
+# This section defines the build settings for the LIVE production site.
 [build]
-  # This tells Netlify to change its directory to 'frontend'
+  # Tell Netlify to go into the 'frontend' folder before doing anything.
   base = "frontend/"
-  
-  # The commands to build our frontend
+  # The command to build the frontend.
   command = "npm run build"
+  # The folder where the built site will be.
   publish = "dist/"
 
-# --- THIS IS THE FIX ---
-# We update the redirect to point to our new function name, 'contact'.
+# This section tells Netlify where to find our backend serverless functions.
+[functions]
+  directory = "netlify/functions/"
+
+# This section is the routing rule for our LIVE site's API.
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/contact"
   status = 200
+
+# --- THIS IS THE FINAL FIX ---
+# This section is the instruction manual for the LOCAL 'netlify dev' command.
+[dev]
+  # The command to start the Vite development server.
+  command = "npm run dev"
+  # The port that Vite runs on.
+  targetPort = 5173
+  # The folder where the function files are located.
+  functions = "netlify/functions"
