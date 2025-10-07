@@ -16,3 +16,15 @@
   from = "/api/*"
   to = "/.netlify/functions/contact"
   status = 200
+
+# --- THIS IS THE FINAL FIX ---
+# This section is the instruction manual for the LOCAL 'netlify dev' command.
+[dev]
+  # This tells the command that our frontend is a Vite project.
+  framework = "vite"
+  # The command to start the Vite development server.
+  command = "npm run dev"
+  # The port that Vite runs on.
+  targetPort = 5173
+  # The folder where the function files are located.
+  functions = "netlify/functions"
