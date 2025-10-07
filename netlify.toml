@@ -1,23 +1,17 @@
 # This section defines the build settings for the LIVE production site.
 [build]
-  base = "frontend/"
-  command = "npm run build"
-  publish = "dist/"
+  # We now run the build from the root, but tell it where to go.
+  command = "cd frontend && npm run build"
+  # The publish directory is now a direct path from the root.
+  publish = "frontend/dist/"
 
 # This section tells Netlify where to find our backend serverless functions.
 [functions]
   directory = "netlify/functions/"
 
 # This section is the routing rule for our LIVE site's API.
+# It will now work correctly.
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/contact"
   status = 200
-
-# This section is the instruction manual for the LOCAL 'netlify dev' command.
-[dev]
-  # This tells the Netlify CLI to run our master "dev" script.
-  command = "npm run dev"
-  targetPort = 5173
-  functions = "netlify/functions"
-
