@@ -1,7 +1,8 @@
 # This section defines the build settings for the LIVE production site.
 [build]
-  # We now run the build from the root, but tell it where to go.
-  command = "cd frontend && npm run build"
+  # --- THE FINAL FIX ---
+  # We combine install and build into one command to ensure it runs in the correct directory.
+  command = "cd frontend && npm install && npm run build"
   # The publish directory is now a direct path from the root.
   publish = "frontend/dist/"
 
