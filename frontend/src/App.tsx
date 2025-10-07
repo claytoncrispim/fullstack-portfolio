@@ -1,6 +1,10 @@
 import React, { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
 import { Sun, Moon, Briefcase, Mail, Linkedin, Github, ArrowRight, Code, Server, Database, Menu, X } from 'lucide-react';
-
+import heroImage from './assets/20190827_140626_cropped.jpg';
+import projectsBillCalculatorProImage from './assets/projects-bill-calculator-pro-screenshot.png';
+import projectsCulinaryCompassImage from './assets/projects-culinary-compass-screenshot.png';
+import projectsGenieWeatherImage from './assets/projects-genie-weather-screenshot.png';
+import projectsLinkFolioImage from './assets/projects-link-folio-screenshot.png';
 
 // --- TYPE DEFINITIONS ---
 // We define the "shape" of our data to help TypeScript catch errors.
@@ -38,7 +42,7 @@ const projects = [
         title: "Culinary Compass",
         description: "An AI-powered travel guide that generates culinary recommendations, local etiquette tips, and beautiful, AI-created images of signature dishes for any city or country in the world.",
         tags: ["React", "Vite", "Tailwind CSS", "Gemini API", "Imagen 3 API"],
-        image: "src/assets/projects-culinary-compass-screenshot.png",
+        image: projectsCulinaryCompassImage,
         liveUrl: "https://claytoncrispim.github.io/culinary-compass/",
         codeUrl: "https://github.com/claytoncrispim/culinary-compass",
     },
@@ -46,7 +50,7 @@ const projects = [
         title: "Genie Weather",
         description: "A sleek, dynamic weather application that uses generative AI to provide current forecasts, 5-day outlooks, and personalized advice on what to wear and what to do.",
         tags: ["React", "Vite", "Tailwind CSS", "Gemini API", "Geolocation API"],
-        image: "src/assets/projects-genie-weather-screenshot.png",
+        image: projectsGenieWeatherImage,
         liveUrl: "https://claytoncrispim.github.io/genie-weather/",
         codeUrl: "https://github.com/claytoncrispim/genie-weather",
     },
@@ -54,7 +58,7 @@ const projects = [
         title: "Link Folio",
         description: "A complete, single-user \"link-in-bio\" style application. After registering and logging in, a user can manage a personal list of links on a secure dashboard. This project was built from the ground up to demonstrate a full range of full-stack development skills, from database design and secure API creation to building a dynamic, interactive frontend with React.",
         tags: ["Node.js", "Express", "PostgreSQL", "Prisma", "JWT", "bcrypt", "React", "Vite", "TypeScript", "React Router", "Tailwind CSS"],
-        image: "src/assets/projects-link-folio-screenshot.png",
+        image: projectsLinkFolioImage,
         liveUrl: "https://link-folio-nu.vercel.app/",
         codeUrl: "https://github.com/claytoncrispim/link-folio",
     },
@@ -62,7 +66,7 @@ const projects = [
         title: "Bill Calculator Pro",
         description: "An intuitive and responsive single-page application designed to help users easily manage, track, and calculate their monthly bills in a visually organized way.",
         tags: ["HTML5", "CSS3", "Bootstrap", "JavaScript", "localStorage"],
-        image: "src/assets/projects-bill-calculator-pro-screenshot.png",
+        image: projectsBillCalculatorProImage,
         liveUrl: "https://claytoncrispim.github.io/bill-calculator-pro/",
         codeUrl: "https://github.com/claytoncrispim/bill-calculator-pro",
     },
@@ -182,7 +186,7 @@ const Header = ({ darkMode, toggleDarkMode, navLinks, mobileMenuOpen, toggleMobi
  */
 const HeroSection = () => (
     <section id="home" className="py-24 md:py-32 flex flex-col items-center text-center">
-        <img src="src/assets/20190827_140626_cropped.jpg" alt="Clayton Crispim" className="rounded-full w-32 h-32 mb-6 border-4 border-white dark:border-gray-800 shadow-lg"/>
+        <img src={heroImage} alt="Clayton Crispim" className="rounded-full w-32 h-32 mb-6 border-4 border-white dark:border-gray-800 shadow-lg"/>
         <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight mb-4">
             Hi, I'm Clayton Crispim. <br />
             <span className="text-indigo-600 dark:text-indigo-400">A Full-Stack Developer.</span>
