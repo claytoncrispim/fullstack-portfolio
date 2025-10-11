@@ -5,6 +5,7 @@ import projectsBillCalculatorProImage from './assets/projects-bill-calculator-pr
 import projectsCulinaryCompassImage from './assets/projects-culinary-compass-screenshot.png';
 import projectsGenieWeatherImage from './assets/projects-genie-weather-screenshot.png';
 import projectsLinkFolioImage from './assets/projects-link-folio-screenshot.png';
+import projectsContactFormApiImage from './assets/projects-contact-form-api-database-screenshot.png';
 
 // --- TYPE DEFINITIONS ---
 // We define the "shape" of our data to help TypeScript catch errors.
@@ -38,6 +39,14 @@ type SkillCategoryProps = {
 
 // --- DATA ---
 const projects = [
+    {
+        title: "Contact Form API & Database",
+        description: "A secure and robust backend API designed to handle contact form submissions. This project features a Python-based FastAPI server that performs data validation using Pydantic models. All submissions are securely saved to a PostgreSQL database, demonstrating a complete, professional data pipeline including secure password management and prevention of SQL injection attacks.",
+        tags: ["Python", "FastAPI", "PostgreSQL", "SQL", "Psycopg2", "Docker"],
+        image: projectsContactFormApiImage,
+        liveUrl: "https://github.com/claytoncrispim/python-api-project",
+        codeUrl: "https://github.com/claytoncrispim/python-api-project"
+    },
     {
         title: "Culinary Compass",
         description: "An AI-powered travel guide that generates culinary recommendations, local etiquette tips, and beautiful, AI-created images of signature dishes for any city or country in the world.",
