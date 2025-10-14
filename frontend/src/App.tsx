@@ -5,7 +5,7 @@ import projectsBillCalculatorProImage from './assets/projects-bill-calculator-pr
 import projectsCulinaryCompassImage from './assets/projects-culinary-compass-screenshot.png';
 import projectsGenieWeatherImage from './assets/projects-genie-weather-screenshot.png';
 import projectsLinkFolioImage from './assets/projects-link-folio-screenshot.png';
-import projectsContactFormApiImage from './assets/projects-contact-form-api-database-screenshot.png';
+// import projectsContactFormApiImage from './assets/projects-contact-form-api-database-screenshot.png';
 
 // --- TYPE DEFINITIONS ---
 // We define the "shape" of our data to help TypeScript catch errors.
@@ -16,6 +16,7 @@ type Project = {
     image?: string; // image is optional
     liveUrl: string;
     codeUrl: string;
+    imagePosition?: string;
 };
 
 type NavLink = {
@@ -43,7 +44,7 @@ const projects = [
         title: "Contact Form API & Database",
         description: "A secure and robust backend API designed to handle contact form submissions. This project features a Python-based FastAPI server that performs data validation using Pydantic models. All submissions are securely saved to a PostgreSQL database, demonstrating a complete, professional data pipeline including secure password management and prevention of SQL injection attacks.",
         tags: ["Python", "FastAPI", "PostgreSQL", "SQL", "Psycopg2", "Docker"],
-        image: projectsContactFormApiImage,
+        image: "https://raw.githubusercontent.com/claytoncrispim/python-api-project/refs/heads/main/img/fastapi_docs.png",
         liveUrl: "https://github.com/claytoncrispim/python-api-project",
         codeUrl: "https://github.com/claytoncrispim/python-api-project"
     },
@@ -52,6 +53,7 @@ const projects = [
         description: "An AI-powered travel guide that generates culinary recommendations, local etiquette tips, and beautiful, AI-created images of signature dishes for any city or country in the world.",
         tags: ["React", "Vite", "Tailwind CSS", "Gemini API", "Imagen 3 API"],
         image: projectsCulinaryCompassImage,
+        imagePosition: "object-[74%_26%]",
         liveUrl: "https://claytoncrispim.github.io/culinary-compass/",
         codeUrl: "https://github.com/claytoncrispim/culinary-compass",
     },
@@ -88,7 +90,7 @@ const projects = [
  */
 const ProjectCard = ({ project }: { project: Project }) => (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-        <img src={project.image} alt={project.title} className="w-full h-48 object-cover object-top" />
+        <img src={project.image} alt={project.title} className={`w-full h-48 object-cover ${project.imagePosition || "object-top"}`} />
         <div className="p-6">
             <h3 className="text-xl font-bold mb-2">{project.title}</h3>
             <div className="flex flex-wrap gap-2 mb-4">
