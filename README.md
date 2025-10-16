@@ -1,6 +1,6 @@
 # Clayton Crispim - Full-Stack Developer Portfolio
 
-This repository contains the source code for my personal portfolio website, built from the ground up to showcase my skills in modern front-end and back-end development. The live version can be viewed at [claytoncrispim.com](claytoncrispim.com).
+This repository contains the source code for my personal portfolio website, built from the ground up to showcase my skills in modern front-end and back-end development. The live version can be viewed at [claytoncrispim.com](https://www.claytoncrispim.com).
 
 ![Screenshot of the full-stack portfolio landing page](./frontend/src/assets/portfolio-screenshot.png)
 
