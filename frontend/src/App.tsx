@@ -42,9 +42,9 @@ type SkillCategoryProps = {
 // --- DATA ---
 const projects = [
     {
-        title: "Holiday Planner (In Development)",
-        description: "A user-friendly web application that uses generative AI to provide personalized holiday planning assistance, helping users plan their holidays by selecting destinations, dates, and activities, providing a comprehensive itinerary and budget overview.",
-        tags: ["Node.js", "Express","React", "Vite","HTML5", "Tailwind CSS", "Gemini API", "Imagen 3 API"],
+        title: "Holiday Planner - AI-Powered Travel Planning",
+        description: "A full-stack travel planner that lets users search and compare holiday destinations with AI-generated guides, live flight prices and real weather data. The app calls Gemini for structured trip suggestions, Imagen for destination visuals, and a flights API for “Live prices (beta)” and Google Flights deep links, all wrapped in a brochure-style React UI.",
+        tags: ["React", "Tailwind CSS", "Node.js", "Express", "Google Gemini & Imagen", "Amadeus (test)", "Open-Meteo", "GitHub Pages", "Render"],
         image: projectsHolidayPlannerAppImage,
         // imagePosition: "object-[12%_88%]",
         liveUrl: "https://claytoncrispim.github.io/holiday-planner-app/",
