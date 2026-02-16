@@ -41,7 +41,7 @@ type SkillCategoryProps = {
 
 // --- DATA ---
 const projects = [
-    {
+    {   // --- Holiday Planner ---
         title: "Holiday Planner - AI-Powered Travel Planning",
         description: "A full-stack travel planner that lets users search and compare holiday destinations with AI-generated guides, live flight prices and real weather data. The app calls Gemini for structured trip suggestions, Imagen for destination visuals, and a flights API for “Live prices (beta)” and Google Flights deep links, all wrapped in a brochure-style React UI.",
         tags: ["React", "Tailwind CSS", "Node.js", "Express", "Google Gemini & Imagen", "Amadeus (test)", "Open-Meteo", "GitHub Pages", "Render"],
@@ -50,7 +50,23 @@ const projects = [
         liveUrl: "https://claytoncrispim.github.io/holiday-planner-app/",
         codeUrl: "https://github.com/claytoncrispim/holiday-planner-app",
     },
-    {
+    {   // --- Link Folio ---
+        title: "Link Folio",
+        description: "A complete, single-user \"link-in-bio\" style application. After registering and logging in, a user can manage a personal list of links on a secure dashboard. This project was built from the ground up to demonstrate a full range of full-stack development skills, from database design and secure API creation to building a dynamic, interactive frontend with React.",
+        tags: ["Node.js", "Express", "PostgreSQL", "Prisma", "JWT", "bcrypt", "React", "Vite", "TypeScript", "React Router", "Tailwind CSS"],
+        image: projectsLinkFolioImage,
+        liveUrl: "https://link-folio-nu.vercel.app/",
+        codeUrl: "https://github.com/claytoncrispim/link-folio",
+    },
+    {   // --- Genie Weather ---
+        title: "Genie Weather",
+        description: "A sleek, dynamic weather application that uses generative AI to provide current forecasts, 5-day outlooks, and personalized advice on what to wear and what to do.",
+        tags: ["Node.js", "Express","React", "Vite", "Tailwind CSS", "Gemini API", "Geolocation API"],
+        image: projectsGenieWeatherImage,
+        liveUrl: "https://claytoncrispim.github.io/genie-weather/",
+        codeUrl: "https://github.com/claytoncrispim/genie-weather",
+    },
+    {   // --- Contact Form API & Database ---
         title: "Contact Form API & Database",
         description: "A secure and robust backend API designed to handle contact form submissions. This project features a Python-based FastAPI server that performs data validation using Pydantic models. All submissions are securely saved to a PostgreSQL database, demonstrating a complete, professional data pipeline including secure password management and prevention of SQL injection attacks.",
         tags: ["Python", "FastAPI", "PostgreSQL", "SQL", "Psycopg2", "Docker"],
@@ -58,7 +74,7 @@ const projects = [
         liveUrl: "https://github.com/claytoncrispim/python-api-project",
         codeUrl: "https://github.com/claytoncrispim/python-api-project"
     },
-    // {
+    // {   // --- Culinary Compass ---
     //     title: "Culinary Compass",
     //     description: "An AI-powered travel guide that generates culinary recommendations, local etiquette tips, and beautiful, AI-created images of signature dishes for any city or country in the world.",
     //     tags: ["React", "Vite", "Tailwind CSS", "Gemini API", "Imagen 3 API"],
@@ -67,23 +83,8 @@ const projects = [
     //     liveUrl: "https://claytoncrispim.github.io/culinary-compass/",
     //     codeUrl: "https://github.com/claytoncrispim/culinary-compass",
     // },
-    {
-        title: "Genie Weather",
-        description: "A sleek, dynamic weather application that uses generative AI to provide current forecasts, 5-day outlooks, and personalized advice on what to wear and what to do.",
-        tags: ["Node.js", "Express","React", "Vite", "Tailwind CSS", "Gemini API", "Geolocation API"],
-        image: projectsGenieWeatherImage,
-        liveUrl: "https://claytoncrispim.github.io/genie-weather/",
-        codeUrl: "https://github.com/claytoncrispim/genie-weather",
-    },
-    {
-        title: "Link Folio",
-        description: "A complete, single-user \"link-in-bio\" style application. After registering and logging in, a user can manage a personal list of links on a secure dashboard. This project was built from the ground up to demonstrate a full range of full-stack development skills, from database design and secure API creation to building a dynamic, interactive frontend with React.",
-        tags: ["Node.js", "Express", "PostgreSQL", "Prisma", "JWT", "bcrypt", "React", "Vite", "TypeScript", "React Router", "Tailwind CSS"],
-        image: projectsLinkFolioImage,
-        liveUrl: "https://link-folio-nu.vercel.app/",
-        codeUrl: "https://github.com/claytoncrispim/link-folio",
-    },
-    {
+    
+    {   // --- Bill Calculator Pro ---
         title: "Bill Calculator Pro",
         description: "An intuitive and responsive single-page application designed to help users easily manage, track, and calculate their monthly bills in a visually organized way.",
         tags: ["HTML5", "CSS3", "Bootstrap", "JavaScript", "localStorage"],
