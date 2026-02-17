@@ -12,12 +12,15 @@ import projectsHolidayPlannerAppImage from './assets/projects-holiday-planner-ap
 // We define the "shape" of our data to help TypeScript catch errors.
 type Project = {
     title: string;
-    description: string;
+    problemSolved?: string[]; // optional field to describe the problem the project solves
+    description: string;    
     tags: string[];
     image?: string; // image is optional
     liveUrl: string;
     codeUrl: string;
     imagePosition?: string;
+    featured?: boolean; // optional field to indicate if this is a featured project
+    featuredImagePosition?: string; // optional field for featured project image positioning
 };
 
 type NavLink = {
@@ -43,36 +46,45 @@ type SkillCategoryProps = {
 const projects = [
     {   // --- Holiday Planner ---
         title: "Holiday Planner - AI-Powered Travel Planning",
-        description: "A full-stack travel planner that lets users search and compare holiday destinations with AI-generated guides, live flight prices and real weather data. The app calls Gemini for structured trip suggestions, Imagen for destination visuals, and a flights API for “Live prices (beta)” and Google Flights deep links, all wrapped in a brochure-style React UI.",
+        problemSolved: ["API orchestration + progressive loading", "Standardized errors + retry rules (502/503/504)", "IATA resolution (Amadeus + overrides)"],
+        description: "A full-stack travel planner that lets users search and compare holiday destinations with AI-generated guides, live flight prices and real weather data. The app calls Gemini for structured trip suggestions, Imagen for destination visuals, and a flights API for “Live prices (beta)” and Google Flights deep links, all wrapped in a brochure-style React UI.",        
         tags: ["React", "Tailwind CSS", "Node.js", "Express", "Google Gemini & Imagen", "Amadeus (test)", "Open-Meteo", "GitHub Pages", "Render"],
+        featured: true,
         image: projectsHolidayPlannerAppImage,
-        // imagePosition: "object-[12%_88%]",
+        imagePosition: "object-[99%_1%]",
+        featuredImagePosition:"",
         liveUrl: "https://claytoncrispim.github.io/holiday-planner-app/",
         codeUrl: "https://github.com/claytoncrispim/holiday-planner-app",
     },
     {   // --- Link Folio ---
         title: "Link Folio",
         description: "A complete, single-user \"link-in-bio\" style application. After registering and logging in, a user can manage a personal list of links on a secure dashboard. This project was built from the ground up to demonstrate a full range of full-stack development skills, from database design and secure API creation to building a dynamic, interactive frontend with React.",
+        problemSolved: ["Auth", "CRUD", "Postgres", "Deployed"],
         tags: ["Node.js", "Express", "PostgreSQL", "Prisma", "JWT", "bcrypt", "React", "Vite", "TypeScript", "React Router", "Tailwind CSS"],
         image: projectsLinkFolioImage,
         liveUrl: "https://link-folio-nu.vercel.app/",
         codeUrl: "https://github.com/claytoncrispim/link-folio",
+        featured: false,
     },
     {   // --- Genie Weather ---
         title: "Genie Weather",
-        description: "A sleek, dynamic weather application that uses generative AI to provide current forecasts, 5-day outlooks, and personalized advice on what to wear and what to do.",
+        problemSolved: ["API-driven UI states", "Geolocation API", "Gemini API integration"],
+        description: "A sleek, dynamic weather application that uses generative AI to provide current forecasts, 5-day outlooks, and personalized advice on what to wear and what to do.",        
         tags: ["Node.js", "Express","React", "Vite", "Tailwind CSS", "Gemini API", "Geolocation API"],
         image: projectsGenieWeatherImage,
         liveUrl: "https://claytoncrispim.github.io/genie-weather/",
         codeUrl: "https://github.com/claytoncrispim/genie-weather",
+        featured: false,
     },
     {   // --- Contact Form API & Database ---
         title: "Contact Form API & Database",
+        problemSolved: ["Secure API", "Data validation", "Postgres integration"],
         description: "A secure and robust backend API designed to handle contact form submissions. This project features a Python-based FastAPI server that performs data validation using Pydantic models. All submissions are securely saved to a PostgreSQL database, demonstrating a complete, professional data pipeline including secure password management and prevention of SQL injection attacks.",
         tags: ["Python", "FastAPI", "PostgreSQL", "SQL", "Psycopg2", "Docker"],
         image: "https://raw.githubusercontent.com/claytoncrispim/python-api-project/refs/heads/main/img/fastapi_docs.png",
         liveUrl: "https://github.com/claytoncrispim/python-api-project",
-        codeUrl: "https://github.com/claytoncrispim/python-api-project"
+        codeUrl: "https://github.com/claytoncrispim/python-api-project",
+        featured: false,
     },
     // {   // --- Culinary Compass ---
     //     title: "Culinary Compass",
@@ -86,11 +98,13 @@ const projects = [
     
     {   // --- Bill Calculator Pro ---
         title: "Bill Calculator Pro",
+        problemSolved: ["Dynamic UI", "Calculations", "localStorage"],
         description: "An intuitive and responsive single-page application designed to help users easily manage, track, and calculate their monthly bills in a visually organized way.",
         tags: ["HTML5", "CSS3", "Bootstrap", "JavaScript", "localStorage"],
         image: projectsBillCalculatorProImage,
         liveUrl: "https://claytoncrispim.github.io/bill-calculator-pro/",
         codeUrl: "https://github.com/claytoncrispim/bill-calculator-pro",
+        featured: false,
     },
 ];
 
@@ -98,7 +112,10 @@ const projects = [
 
 /**
  * Renders a single project card with an image, title, tags, description, and links.
+ * Only used for non-featured projects. Featured projects have their own larger card component.
  */
+
+// Filter projects to only include non-featured ones for this section
 const ProjectCard = ({ project }: { project: Project }) => (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
         <img src={project.image} alt={project.title} className={`w-full h-48 object-cover ${project.imagePosition || "object-top"}`} />
@@ -109,6 +126,19 @@ const ProjectCard = ({ project }: { project: Project }) => (
                     <span key={tag} className="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">{tag}</span>
                 ))}
             </div>
+            {project.problemSolved && (
+                <>
+                    <p>What problem it solved:</p>
+                    <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 mb-4">
+                        {project.problemSolved.map((problem, index) => (
+                            <span key={index}>
+                                {/* If the problem is not the last one, add a "+" separator */}
+                                {problem} {index < (project.problemSolved?.length ?? 0) - 1 ? "+ " : ""}
+                            </span>
+                        ))}
+                    </ul>
+                </>
+            )}
             <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
             <div className="flex space-x-4">
                 <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">Live Demo</a>
@@ -155,6 +185,7 @@ export default function App() {
             <main className="container mx-auto px-6 md:px-12 lg:px-24">
                 <HeroSection />
                 <AboutSection />
+                <FeaturedProjectsSection />
                 <ProjectsSection />
                 <SkillsSection />
                 <ContactSection />
@@ -211,10 +242,13 @@ const HeroSection = () => (
         <img src={heroImage} alt="Clayton Crispim" className="rounded-full w-32 h-32 mb-6 border-4 border-white dark:border-gray-800 shadow-lg"/>
         <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight mb-4">
             Hi, I'm Clayton Crispim. <br />
-            <span className="text-indigo-600 dark:text-indigo-400">A Full-Stack Developer.</span>
+            <span className="text-indigo-600  md:text-4xl dark:text-indigo-400">A Junior Full-Stack Developer (React, Node/Express).</span>
         </h1>
         <p className="max-w-2xl text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-8">
-            I specialize in crafting elegant front-end experiences and building robust, scalable backend systems. Turning complex problems into simple, beautiful code is my passion.
+            I build responsive React UIs and practical Node/Express APIs. I focus on clean UX (loading/error/empty states), reliable integrations, and maintainable code.
+        </p>
+        <p className="max-w-2xl text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-8">
+            Available for small React + Node fixes: API integrations, endpoints, and UI state improvements.
         </p>
         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
             <a href="#projects" className="bg-indigo-600 text-white px-8 py-3 rounded-md font-semibold text-lg hover:bg-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
@@ -236,9 +270,8 @@ const AboutSection = () => (
             <h2 className="text-3xl font-bold text-center mb-12">About Me</h2>
             <div className="flex flex-col md:flex-row items-center gap-12">
                 <div className="md:w-2/3 space-y-4 text-lg text-gray-700 dark:text-gray-300">
-                    <p>Hello! I'm a passionate full-stack developer with a love for building things for the web. My journey into technology started with a simple "Hello, World!" and has since grown into a full-fledged passion for creating intuitive, dynamic, and impactful web applications.</p>
-                    <p>I thrive on the challenge of solving complex problems and I'm committed to the principle of continuous learning. Whether it's architecting a backend API or perfecting the user interface, I'm dedicated to writing clean, efficient, and maintainable code.</p>
-                    <p>When I'm not coding, you can find me exploring new technologies, planning my next project, or enjoying a good cup of coffee.</p>
+                    <p>I’m a junior full-stack developer based in Dublin, focused on building modern web apps with React and Node/Express. I enjoy improving UX details (loading, error handling, edge cases) and wiring real APIs into reliable features.</p>
+                    <p>Recently, I’ve been shipping projects like Holiday Planner (multi-step API flow + retries + standardized errors), Link-Folio (auth + CRUD + PostgreSQL), and Genie Weather (API-driven UI states). I’m looking for junior opportunities and small fixed-scope freelance work where I can ship fast and keep learning.</p>                    
                 </div>
                 <div className="md:w-1/3 flex justify-center">
                     <img src="/dev-illustration.svg" alt="Developer Illustration" className="rounded-lg shadow-2xl w-full max-w-sm"/>
@@ -249,17 +282,69 @@ const AboutSection = () => (
 );
 
 /**
- * Renders the "My Work" section, which maps over the projects array and displays a ProjectCard for each one.
+ * Renders the "My Work" section, which maps over the projects array and displays a ProjectCard for each one. ONLY NON-FEATURED PROJECTS ARE DISPLAYED HERE. Featured projects have their own section with larger cards.
  */
 const ProjectsSection = () => (
     <section id="projects" className="py-20 md:py-28">
          <h2 className="text-3xl font-bold text-center mb-12">My Work</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-            {projects.map((project: Project, index: number) => (
+            {projects.filter(project => !project.featured).map((project: Project, index: number) => (
                 <ProjectCard key={index} project={project} />
             ))}
         </div>
     </section>
+);
+
+/**
+ * Renders the "Featured Projects" section, which displays a larger card for each featured project.
+ * Featured Projects
+ */
+ 
+ // Main Featured Projects section
+const FeaturedProjectsSection = () => {
+    const featuredProjects = projects.slice(0, 2); // Just an example to take the first 2 projects as featured
+    return (
+        <section id="featured-projects" className="py-20 md:py-28 bg-gray-100 dark:bg-gray-700 rounded-xl shadow-lg my-12">
+            <div className="container mx-auto px-6 md:px-12">
+                <h2 className="text-3xl font-bold text-center mb-12">Featured Projects</h2>
+                <div className="grid place-items-center gap-8">
+                    {featuredProjects.filter(project => project.featured).map((project: Project, index: number) => (
+                        <FeaturedProjectCard key={index} project={project} />
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+// Featured Project Card - larger and more detailed than the regular ProjectCard
+const FeaturedProjectCard = ({ project }: { project: Project }) => (
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 w-full max-w-4xl">
+        <img src={project.image} alt={project.title} className={`w-full h-96 object-cover ${project.featuredImagePosition || "object-top"}`} />
+        <div className="p-8">
+            <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
+            <div className="flex flex-wrap gap-3 mb-6">
+                {project.tags.map((tag: string) => (
+                    <span key={tag} className="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-300 text-sm font-semibold px-3 py-1 rounded-full">{tag}</span>
+                ))}
+            </div>
+            {project.problemSolved && (
+                <>
+                    <p className="text-lg font-semibold mb-2">What problem it solved:</p>
+                    <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 mb-6">
+                        {project.problemSolved.map((problem, index) => (
+                            <li key={index}>{problem}</li>
+                        ))}
+                    </ul>
+                </>
+            )}
+            <p className="text-gray-600 dark:text-gray-400 mb-6">{project.description}</p>
+            <div className="flex space-x-6">
+                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline text-lg">Live Demo</a>
+                <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline text-lg">View Code</a>
+            </div>
+        </div>
+    </div>
 );
 
 /**
