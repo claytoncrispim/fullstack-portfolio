@@ -1,5 +1,5 @@
 import React, { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
-import { Sun, Moon, Briefcase, Mail, Linkedin, Github, ArrowRight, Code, Server, Database, Menu, X, ImageIcon } from 'lucide-react';
+import { Sun, Moon, Briefcase, Mail, Linkedin, Github, ArrowRight, Code, Server, Database, Menu, X } from 'lucide-react';
 import heroImage from './assets/20190827_140626_cropped.jpg';
 import projectsBillCalculatorProImage from './assets/projects-bill-calculator-pro-screenshot.png';
 import projectsCulinaryCompassImage from './assets/projects-culinary-compass-screenshot.png';
@@ -13,7 +13,7 @@ import projectsHolidayPlannerAppImage from './assets/projects-holiday-planner-ap
 type Project = {
     title: string;
     problemSolved?: string[]; // optional field to describe the problem the project solves
-    description: string;    
+    description: string;
     tags: string[];
     image?: string; // image is optional
     liveUrl: string;
@@ -47,12 +47,12 @@ const projects = [
     {   // --- Holiday Planner ---
         title: "Holiday Planner - AI-Powered Travel Planning",
         problemSolved: ["API orchestration + progressive loading", "Standardized errors + retry rules (502/503/504)", "IATA resolution (Amadeus + overrides)"],
-        description: "A full-stack travel planner that lets users search and compare holiday destinations with AI-generated guides, live flight prices and real weather data. The app calls Gemini for structured trip suggestions, Imagen for destination visuals, and a flights API for “Live prices (beta)” and Google Flights deep links, all wrapped in a brochure-style React UI.",        
+        description: "A full-stack travel planner that lets users search and compare holiday destinations with AI-generated guides, live flight prices and real weather data. The app calls Gemini for structured trip suggestions, Imagen for destination visuals, and a flights API for “Live prices (beta)” and Google Flights deep links, all wrapped in a brochure-style React UI.",
         tags: ["React", "Tailwind CSS", "Node.js", "Express", "Google Gemini & Imagen", "Amadeus (test)", "Open-Meteo", "GitHub Pages", "Render"],
         featured: true,
         image: projectsHolidayPlannerAppImage,
         imagePosition: "object-[99%_1%]",
-        featuredImagePosition:"",
+        featuredImagePosition: "",
         liveUrl: "https://claytoncrispim.github.io/holiday-planner-app/",
         codeUrl: "https://github.com/claytoncrispim/holiday-planner-app",
     },
@@ -69,13 +69,13 @@ const projects = [
     {   // --- Genie Weather ---
         title: "Genie Weather",
         problemSolved: ["API-driven UI states", "Geolocation API", "Gemini API integration"],
-        description: "A sleek, dynamic weather application that uses generative AI to provide current forecasts, 5-day outlooks, and personalized advice on what to wear and what to do.",        
-        tags: ["Node.js", "Express","React", "Vite", "Tailwind CSS", "Gemini API", "Vertex AI", "Geolocation API"],
+        description: "A sleek, dynamic weather application that uses generative AI to provide current forecasts, 5-day outlooks, and personalized advice on what to wear and what to do.",
+        tags: ["Node.js", "Express", "React", "Vite", "Tailwind CSS", "Gemini API", "Vertex AI", "Geolocation API"],
         image: projectsGenieWeatherImage,
         liveUrl: "https://claytoncrispim.github.io/genie-weather/",
         codeUrl: "https://github.com/claytoncrispim/genie-weather",
         featured: false,
-    },    
+    },
     {   // --- Culinary Compass ---
         title: "Culinary Compass",
         description: "An AI-powered travel guide that generates culinary recommendations, local etiquette tips, and beautiful, AI-created images of signature dishes for any city or country in the world.",
@@ -96,7 +96,7 @@ const projects = [
         codeUrl: "https://github.com/claytoncrispim/python-api-project",
         featured: false,
     },
-    
+
     {   // --- Bill Calculator Pro ---
         title: "Bill Calculator Pro",
         problemSolved: ["Dynamic UI", "Calculations", "localStorage"],
@@ -176,9 +176,9 @@ export default function App() {
 
     return (
         <div className={`bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-sans transition-colors duration-300`}>
-            <Header 
-                darkMode={darkMode} 
-                toggleDarkMode={toggleDarkMode} 
+            <Header
+                darkMode={darkMode}
+                toggleDarkMode={toggleDarkMode}
                 navLinks={navLinks}
                 mobileMenuOpen={mobileMenuOpen}
                 toggleMobileMenu={toggleMobileMenu}
@@ -240,7 +240,7 @@ const Header = ({ darkMode, toggleDarkMode, navLinks, mobileMenuOpen, toggleMobi
  */
 const HeroSection = () => (
     <section id="home" className="py-24 md:py-32 flex flex-col items-center text-center">
-        <img src={heroImage} alt="Clayton Crispim" className="rounded-full w-32 h-32 mb-6 border-4 border-white dark:border-gray-800 shadow-lg"/>
+        <img src={heroImage} alt="Clayton Crispim" className="rounded-full w-32 h-32 mb-6 border-4 border-white dark:border-gray-800 shadow-lg" />
         <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight mb-4">
             Hi, I'm Clayton Crispim. <br />
             <span className="text-indigo-600  md:text-4xl dark:text-indigo-400">A Junior Full-Stack Developer (React, Node/Express).</span>
@@ -272,10 +272,10 @@ const AboutSection = () => (
             <div className="flex flex-col md:flex-row items-center gap-12">
                 <div className="md:w-2/3 space-y-4 text-lg text-gray-700 dark:text-gray-300">
                     <p>I’m a junior full-stack developer based in Dublin, focused on building modern web apps with React and Node/Express. I enjoy improving UX details (loading, error handling, edge cases) and wiring real APIs into reliable features.</p>
-                    <p>Recently, I’ve been shipping projects like Holiday Planner (multi-step API flow + retries + standardized errors), Link-Folio (auth + CRUD + PostgreSQL), and Genie Weather (API-driven UI states). I’m looking for junior opportunities and small fixed-scope freelance work where I can ship fast and keep learning.</p>                    
+                    <p>Recently, I’ve been shipping projects like Holiday Planner (multi-step API flow + retries + standardized errors), Link-Folio (auth + CRUD + PostgreSQL), and Genie Weather (API-driven UI states). I’m looking for junior opportunities and small fixed-scope freelance work where I can ship fast and keep learning.</p>
                 </div>
                 <div className="md:w-1/3 flex justify-center">
-                    <img src="/dev-illustration.svg" alt="Developer Illustration" className="rounded-lg shadow-2xl w-full max-w-sm"/>
+                    <img src="/dev-illustration.svg" alt="Developer Illustration" className="rounded-lg shadow-2xl w-full max-w-sm" />
                 </div>
             </div>
         </div>
@@ -287,7 +287,7 @@ const AboutSection = () => (
  */
 const ProjectsSection = () => (
     <section id="projects" className="py-20 md:py-28">
-         <h2 className="text-3xl font-bold text-center mb-12">My Work</h2>
+        <h2 className="text-3xl font-bold text-center mb-12">My Work</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
             {projects.filter(project => !project.featured).map((project: Project, index: number) => (
                 <ProjectCard key={index} project={project} />
@@ -300,8 +300,8 @@ const ProjectsSection = () => (
  * Renders the "Featured Projects" section, which displays a larger card for each featured project.
  * Featured Projects
  */
- 
- // Main Featured Projects section
+
+// Main Featured Projects section
 const FeaturedProjectsSection = () => {
     const featuredProjects = projects.slice(0, 2); // Just an example to take the first 2 projects as featured
     return (
@@ -352,10 +352,10 @@ const FeaturedProjectCard = ({ project }: { project: Project }) => (
  * Renders the "Technologies I Use" section, organizing skills into categories like Frontend, Backend, and Databases.
  */
 const SkillsSection = () => {
-    const skillsData =  [
-        { title: "Frontend", icon: <Code className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>, skills: ["JavaScript (ES6+)", "TypeScript", "React", "Next.js", "HTML5", "CSS3", "Tailwind CSS"] },
-        { title: "Backend", icon: <Server className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>, skills: ["Node.js", "Express", "Python", "REST APIs"] },
-        { title: "Databases", icon: <Database className="h-8 w-8 mx-auto mb-2 text-indigo-500"/>, skills: ["PostgreSQL", "SQL", "MySQL"] },
+    const skillsData = [
+        { title: "Frontend", icon: <Code className="h-8 w-8 mx-auto mb-2 text-indigo-500" />, skills: ["JavaScript (ES6+)", "TypeScript", "React", "Next.js", "HTML5", "CSS3", "Tailwind CSS"] },
+        { title: "Backend", icon: <Server className="h-8 w-8 mx-auto mb-2 text-indigo-500" />, skills: ["Node.js", "Express", "Python", "REST APIs"] },
+        { title: "Databases", icon: <Database className="h-8 w-8 mx-auto mb-2 text-indigo-500" />, skills: ["PostgreSQL", "SQL", "MySQL"] },
     ];
     return (
         <section id="skills" className="py-20 md:py-28 bg-white dark:bg-gray-800 rounded-xl shadow-lg my-12">
@@ -363,11 +363,11 @@ const SkillsSection = () => {
                 <h2 className="text-3xl font-bold text-center mb-12">Technologies I Use</h2>
                 <div className="grid md:grid-cols-3 gap-8 text-center">
                     {skillsData.map((category) => (
-                        <SkillCategory 
-                            key={category.title} 
-                            icon={category.icon} 
-                            title={category.title} 
-                            skills={category.skills} 
+                        <SkillCategory
+                            key={category.title}
+                            icon={category.icon}
+                            title={category.title}
+                            skills={category.skills}
                         />
                     ))}
                 </div>
@@ -406,7 +406,7 @@ const ContactSection = () => {
         e.preventDefault();
         setStatus('sending');
         setResponseMessage('');
-        
+
         try {
             // --- THIS IS THE FIX ---
             // We add the trailing slash to match what Vercel expects.
