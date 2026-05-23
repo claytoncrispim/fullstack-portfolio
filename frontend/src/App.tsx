@@ -7,6 +7,7 @@ import projectsGenieWeatherImage from './assets/projects-genie-weather-screensho
 import projectsLinkFolioImage from './assets/projects-link-folio-screenshot.png';
 import projectsContactFormApiImage from './assets/projects-contact-form-api-database-screenshot.png';
 import projectsHolidayPlannerAppImage from './assets/projects-holiday-planner-app.png';
+import projectsCookingBookImage from './assets/projects-cookbook-screenshot.png';
 
 // --- TYPE DEFINITIONS ---
 // We define the "shape" of our data to help TypeScript catch errors.
@@ -21,6 +22,8 @@ type Project = {
     imagePosition?: string;
     featured?: boolean; // optional field to indicate if this is a featured project
     featuredImagePosition?: string; // optional field for featured project image positioning
+    underDevelopment?: boolean; // optional field to indicate if this project is under development
+    underDevelopmentImagePosition?: string; // optional field for under development project image positioning section
 };
 
 type NavLink = {
@@ -44,6 +47,19 @@ type SkillCategoryProps = {
 
 // --- DATA ---
 const projects = [
+    {   // --- Cooking Book ---
+        title: "Cooking Book - Django Recipe App",
+        problemSolved: ["Auth + permissions", "CRUD flows", "Private vs Public data management"],
+        description: "A production-minded Django web app where authenticated users can create and manage personal recipes, control private/public visibility, and share public entries through secure ownership-first CRUD flows and permission-aware endpoints.",
+        tags: ["Python", "Django", "Bootstrap",],
+        image: projectsCookingBookImage,
+        imagePosition: "object-[50%_0%]",
+        liveUrl: "https://claytoncrispim.github.io/cooking-book/",
+        codeUrl: "https://github.com/claytoncrispim/cookbook",
+        featured: false,
+        underDevelopment: true,
+        underDevelopmentImagePosition: "object-[50%_0%]",
+    },
     {   // --- Holiday Planner ---
         title: "Holiday Planner - AI-Powered Travel Planning",
         problemSolved: ["API orchestration + progressive loading", "Standardized errors + retry rules (502/503/504)", "IATA resolution (Amadeus + overrides)"],
@@ -55,6 +71,7 @@ const projects = [
         featuredImagePosition: "",
         liveUrl: "https://claytoncrispim.github.io/holiday-planner-app/",
         codeUrl: "https://github.com/claytoncrispim/holiday-planner-app",
+        underDevelopment: false,
     },
     {   // --- Link Folio ---
         title: "Link Folio",
@@ -65,6 +82,7 @@ const projects = [
         liveUrl: "https://link-folio-nu.vercel.app/",
         codeUrl: "https://github.com/claytoncrispim/link-folio",
         featured: false,
+        underDevelopment: false,
     },
     {   // --- Genie Weather ---
         title: "Genie Weather",
@@ -75,6 +93,7 @@ const projects = [
         liveUrl: "https://claytoncrispim.github.io/genie-weather/",
         codeUrl: "https://github.com/claytoncrispim/genie-weather",
         featured: false,
+        underDevelopment: false,
     },
     {   // --- Culinary Compass ---
         title: "Culinary Compass",
@@ -84,6 +103,8 @@ const projects = [
         imagePosition: "object-[74%_26%]",
         liveUrl: "https://claytoncrispim.github.io/culinary-compass/",
         codeUrl: "https://github.com/claytoncrispim/culinary-compass",
+        featured: false,
+        underDevelopment: false,
     },
     {   // --- Contact Form API & Database ---
         title: "Contact Form API & Database",
@@ -95,6 +116,7 @@ const projects = [
         liveUrl: "https://github.com/claytoncrispim/python-api-project",
         codeUrl: "https://github.com/claytoncrispim/python-api-project",
         featured: false,
+        underDevelopment: false,
     },
 
     {   // --- Bill Calculator Pro ---
@@ -106,6 +128,7 @@ const projects = [
         liveUrl: "https://claytoncrispim.github.io/bill-calculator-pro/",
         codeUrl: "https://github.com/claytoncrispim/bill-calculator-pro",
         featured: false,
+        underDevelopment: false,
     },
 ];
 
@@ -121,7 +144,14 @@ const ProjectCard = ({ project }: { project: Project }) => (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
         <img src={project.image} alt={project.title} className={`w-full h-80 object-cover ${project.imagePosition || "object-top"}`} />
         <div className="p-6">
-            <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+            <h3 className="text-xl font-bold mb-2">
+                {project.title}
+                {/* If the project is under development a badge is added next to the title */}
+                {project.underDevelopment && (
+                    <span className="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300 text-xs font-semibold px-2.5 py-0.5 rounded-full ml-2">Under Development</span>
+                )}
+            </h3>
+
             <div className="flex flex-wrap gap-2 mb-4">
                 {project.tags.map((tag: string) => (
                     <span key={tag} className="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">{tag}</span>
@@ -142,7 +172,9 @@ const ProjectCard = ({ project }: { project: Project }) => (
             )}
             <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
             <div className="flex space-x-4">
-                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">Live Demo</a>
+                {!project.underDevelopment && (
+                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">Live Demo</a>
+                )}
                 <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">View Code</a>
             </div>
         </div>
@@ -283,7 +315,7 @@ const AboutSection = () => (
 );
 
 /**
- * Renders the "My Work" section, which maps over the projects array and displays a ProjectCard for each one. ONLY NON-FEATURED PROJECTS ARE DISPLAYED HERE. Featured projects have their own section with larger cards.
+ * Renders the "My Work" section, which maps over the projects array and displays a ProjectCard for each one. Only non-featured projects are displayed here.
  */
 const ProjectsSection = () => (
     <section id="projects" className="py-20 md:py-28">
@@ -425,7 +457,7 @@ const ContactSection = () => {
                 setStatus('error');
                 setResponseMessage(data.message || 'An error occurred.');
             }
-        } catch (error) {
+        } catch {
             setStatus('error');
             setResponseMessage('Something went wrong. Please try again.');
         }
