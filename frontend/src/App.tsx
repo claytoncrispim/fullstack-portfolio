@@ -47,8 +47,8 @@ type SkillCategoryProps = {
 
 // --- DATA ---
 const projects = [
-    {   // --- Cooking Book ---
-        title: "Cooking Book - Django Recipe App",
+    {   // --- Cookbook ---
+        title: "Cookbook - Django Recipe App",
         problemSolved: ["Auth + permissions", "CRUD flows", "Private vs Public data management"],
         description: "A production-minded Django web app where authenticated users can create and manage personal recipes, control private/public visibility, and share public entries through secure ownership-first CRUD flows and permission-aware endpoints.",
         tags: ["Python", "Django", "Bootstrap",],
